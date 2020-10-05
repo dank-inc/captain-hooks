@@ -3,9 +3,10 @@ import * as Discord from 'discord.js'
 dotenv.config()
 
 const client = new Discord.Client()
+const { DISCORD_TOKEN } = process.env
 
 client.on('ready', () => {
-  console.log(`Logged in as ${client.user.tag}!`)
+  console.log(`My Botty is ready! => ${client.user.tag}!`)
 })
 
 client.on('message', (msg) => {
@@ -15,8 +16,8 @@ client.on('message', (msg) => {
   console.log(msg)
 })
 
-console.log(process.env.DISCORD_TOKEN)
+if (!DISCORD_TOKEN) {
+  console.error('hey, you knob, put the discord token on the thing')
+}
 
-// client.login(env.DISCORD_TOKEN)
-
-console.log('hello bot')
+client.login(DISCORD_TOKEN)
