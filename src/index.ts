@@ -16,6 +16,8 @@ client.on('message', (msg) => {
   console.log(msg)
 })
 
+console.log(client.channels.cache)
+
 if (!DISCORD_TOKEN) {
   console.error('hey, you knob, put the discord token on the thing')
 }
