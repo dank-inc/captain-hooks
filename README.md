@@ -5,6 +5,10 @@ Captain Hook
 Fartsnack McGee  
 ThisIsTheBotYoureLookingFor
 
+### Notes:
+
+the dank inc discord bot playground channel id is: 762814380860899338
+
 # TODO:
 
 - i think we will need a server, express or some shit
