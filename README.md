@@ -1,6 +1,7 @@
-# erik-and-elijahs-bot
+# CAPTAIN-HOOKS
 
-### POTENTIAL NAMES:  
+### POTENTIAL NAMES:
+
 Captain Hook  
 Fartsnack McGee  
 ThisIsTheBotYoureLookingFor
