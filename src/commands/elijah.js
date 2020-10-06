@@ -1,5 +1,8 @@
+const { servicesVersion } = require('typescript')
+
 const commands = {
-  '!dankping': { reply: 'Pong!' },
+  '!dankping': { action: () => {}, reply: 'Pong!' },
+  '!interesting': {},
 }
 
 module.exports = { commands }

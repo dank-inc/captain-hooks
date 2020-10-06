@@ -1,6 +1,6 @@
 const Discord = require('discord.js')
-const { commands: elijahCommands } = require('./commands/elijah')
-const { commands: erikCommands } = require('./commands/erik')
+const { commands: elijahCommands } = require('../commands/elijah')
+const { commands: erikCommands } = require('../commands/erik')
 
 class Bot {
   constructor({ testChannelId, token }) {
@@ -29,6 +29,7 @@ class Bot {
       if (msg.content === 'ping') {
         msg.reply('Pong!')
       }
+
       console.log(msg.channel.id, msg.content)
     })
 
