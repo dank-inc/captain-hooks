@@ -9,8 +9,13 @@ class Server {
   constructor({ twitchBot, discordBot, port, dbconfig }) {
     this.port = port
     this.app = express()
-    this.discordBot = new DiscordBot({ ...discordBot, server: this })
-    this.twitchBot = new TwitchBot({ ...twitchBot, server: this })
+
+    this.bots = []
+    // only enable the bots we want
+    if (discordBot)
+      this.bots.push(new DiscordBot({ ...discordBot, server: this }))
+    if (twitchBot) this.bots.push(new TwitchBot({ ...twitchBot, server: this }))
+
     this.db = Knex(dbconfig)
 
     this.state = {}
@@ -57,9 +62,10 @@ class Server {
 
   notifyAll(body) {
     // send message from every bot
-
-    if (this.discordBot) this.discordBot.msg(body)
-    if (this.twitchBot) this.twitchBot.msg(body)
+    // bots can be an array honestly.
+    for (const bot of this.bots) {
+      bot.msg(body)
+    }
   }
 }
 
