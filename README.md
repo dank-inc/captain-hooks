@@ -13,3 +13,5 @@ the dank inc discord bot playground channel id is: 762814380860899338
 
 - i think we will need a server, express or some shit
 - persistence, elijah likes SQLite for stuff like this.
+
+ya
