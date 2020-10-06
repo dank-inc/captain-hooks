@@ -17,6 +17,7 @@ const twitchBot = {
 const dbconfig = {
   client: 'sqlite3',
   connection: { filename: './captain_hook.sqlite' },
+  useNullAsDefault: true,
 }
 
 const server = new Server({

@@ -33,6 +33,17 @@ class Server {
     this.app.listen(this.port, () => {
       console.log('Server is online! port =>', this.port)
     })
+
+    this.db.schema
+      .dropTableIfExists('users')
+      .then(() => console.log('Users Table Dropped!'))
+    this.db.schema
+      .createTable('users', (table) => {
+        table.increments(), table.string('username')
+        table.timestamps()
+      })
+      .then(() => console.log('Users Table Created!'))
+    // TODO: Seed users table
   }
 
   notifyAll(body) {
