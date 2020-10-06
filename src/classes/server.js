@@ -1,6 +1,7 @@
 const express = require('express')
 // moved all this in here so we get autocomplete
 const Knex = require('knex')
+const { parseChatArgs } = require('../utils/chat')
 const { DiscordBot } = require('./discord-bot')
 const { TwitchBot } = require('./twitch-bot')
 
@@ -8,15 +9,13 @@ class Server {
   constructor({ twitchBot, discordBot, port, dbconfig }) {
     this.port = port
     this.app = express()
-    this.discordBot = new DiscordBot(discordBot)
-    this.twitchBot = new TwitchBot(twitchBot)
+    this.discordBot = new DiscordBot({ ...discordBot, server: this })
+    this.twitchBot = new TwitchBot({ ...twitchBot, server: this })
     this.db = Knex(dbconfig)
-
-    this.discordBot.attachServer(this)
-    this.twitchBot.attachServer(this)
 
     this.state = {}
 
+    // MOVE TO ROUTES
     this.app.get('/', (req, res) => res.send('yas queen!'))
     this.app.post('/alert', (req, res) => {
       this.notifyAll(req.query.msg)
@@ -34,6 +33,8 @@ class Server {
       console.log('Server is online! port =>', this.port)
     })
 
+    // DB SCHEMA SHIT
+
     this.db.schema
       .dropTableIfExists('users')
       .then(() => console.log('Users Table Dropped!'))
@@ -44,6 +45,14 @@ class Server {
       })
       .then(() => console.log('Users Table Created!'))
     // TODO: Seed users table
+  }
+
+  execHTTPAction(action, params) {
+    this.controller.exec(action, params)
+  }
+
+  execChatAction(action, keyword) {
+    this.controller.exec(action, parseChatArgs(keyword))
   }
 
   notifyAll(body) {

@@ -1,11 +1,12 @@
 const Discord = require('discord.js')
 const { commands: elijahCommands } = require('../commands/elijah')
 const { commands: erikCommands } = require('../commands/erik')
+const { commands: masterCommands } = require('../commands/master')
 
 class DiscordBot {
-  constructor({ testChannelId, token }) {
+  constructor({ testChannelId, token, server }) {
     this.client = new Discord.Client()
-
+    this.server = server
     this.helpers = {}
 
     // event listeners - clean up later
@@ -19,10 +20,18 @@ class DiscordBot {
     this.client.on('message', (msg) => {
       const keyword = msg.content.split(' ')[0]
 
-      const command = { ...elijahCommands, ...erikCommands }[keyword]
+      const command = { ...elijahCommands, ...erikCommands, ...masterCommands }[
+        keyword
+      ]
 
       console.log('command response', keyword, command)
       if (!command) return
+
+      if (command.action) {
+        const response = this.server.execChatCommand(command.action, keyword)
+        // send response
+        return
+      }
 
       msg.reply(command.reply)
 
@@ -35,10 +44,6 @@ class DiscordBot {
 
     // init bot
     this.client.login(token)
-  }
-
-  attachServer(server) {
-    this.server = server
   }
 
   msg(msg) {

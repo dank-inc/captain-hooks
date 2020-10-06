@@ -1,16 +1,17 @@
 # erik-and-elijahs-bot
 
-POTENTIAL NAMES:  
+### POTENTIAL NAMES:  
 Captain Hook  
 Fartsnack McGee  
 ThisIsTheBotYoureLookingFor
 
-### Notes:
+### NOTES:
 
 the dank inc discord bot playground channel id is: 762814380860899338
 twitch bot: https://github.com/tmijs/tmi.js
 discord bot: https://discord.js.org/
 
-# TODO:
+## TODO:
 
-- persistence, elijah likes SQLite for stuff like this.
+- move db schema concerns to separate file
+- move routes to separate file

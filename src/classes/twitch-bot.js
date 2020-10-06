@@ -2,7 +2,8 @@ const { Client } = require('tmi.js')
 const { commands } = require('../commands/elijah')
 
 class TwitchBot {
-  constructor({ debug, oauth, channels, noticeChannel }) {
+  constructor({ debug, oauth, channels, noticeChannel, server }) {
+    this.server = server
     this.client = new Client({
       options: { debug },
       connection: {
@@ -32,13 +33,16 @@ class TwitchBot {
       const command = commands[keyword]
 
       if (!command) return
+
+      if (command.action) {
+        const response = this.server.execChatCommand(command.action, keyword)
+        // send response
+        return
+      }
+
       console.log(command)
       this.client.say(channel, command.reply)
     })
-  }
-
-  attachServer(server) {
-    this.server = server
   }
 
   msg(body) {
