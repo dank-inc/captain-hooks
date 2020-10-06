@@ -104,3 +104,4 @@ ENV/
 
 settings.py
 *.session
+*.session-journal
