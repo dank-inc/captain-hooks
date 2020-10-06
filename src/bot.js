@@ -20,7 +20,6 @@ class Bot {
       if (msg.content === 'ping') {
         msg.reply('Pong!')
       }
-
       console.log(msg.channel.id, msg.content)
     })
 
@@ -29,7 +28,7 @@ class Bot {
   }
 
   test() {
-    this.client.helpers.testChannel.send('My botty is Ready!')
+    this.client.testChannel.send('My botty is Ready!')
   }
 }
 
