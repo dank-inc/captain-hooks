@@ -1,11 +1,16 @@
 const express = require('express')
+// moved all this in here so we get autocomplete
+const Knex = require('knex')
+const { DiscordBot } = require('./discord-bot')
+const { TwitchBot } = require('./twitch-bot')
 
 class Server {
-  constructor({ twitchBot, discordBot, port }) {
+  constructor({ twitchBot, discordBot, port, dbconfig }) {
     this.port = port
     this.app = express()
-    this.discordBot = discordBot
-    this.twitchBot = twitchBot
+    this.discordBot = new DiscordBot(discordBot)
+    this.twitchBot = new TwitchBot(twitchBot)
+    this.db = Knex(dbconfig)
 
     this.discordBot.attachServer(this)
     this.twitchBot.attachServer(this)
@@ -22,16 +27,19 @@ class Server {
     )
   }
 
+  // should have some universal message handlers, so we can tie in a central data store, so people can interact from any place (web, twitch, discord, telegram, twitter, etc)
+
   start() {
     this.app.listen(this.port, () => {
       console.log('Server is online! port =>', this.port)
     })
   }
 
-  notifyAll(msg) {
+  notifyAll(body) {
     // send message from every bot
-    if (this.discordBot) this.discordBot.msg(msg)
-    if (this.twitchBot) this.twitchBot.msg(msg)
+
+    if (this.discordBot) this.discordBot.msg(body)
+    if (this.twitchBot) this.twitchBot.msg(body)
   }
 }
 
