@@ -2,22 +2,21 @@ const Discord = require('discord.js')
 
 class Bot {
   constructor({ testChannelId, token }) {
-    this = new Discord.Client()
+    this.client = new Discord.Client()
 
     this.helpers = {
-      testChannel: this.channels.cache.get(testChannelId),
+      testChannel: this.client.channels.cache.get(testChannelId),
     }
 
     // event listeners - clean up later
-    this.on('ready', () => {
-      // anything whne it's logged in
-      bot.user.setActivity('WITH MYSELF', { type: 'PLAYING' })
+    this.client.on('ready', () => {
+      this.client.user.setActivity('WITH MYSELF', { type: 'PLAYING' })
 
-      const members = bot.users.cache
-      console.log(`My Botty is ready! => ${bot.user.tag}!`)
+      const members = this.client.users.cache
+      console.log(`My Botty is ready! => ${this.client.user.tag}!`)
     })
 
-    this.on('message', (msg) => {
+    this.client.on('message', (msg) => {
       if (msg.content === 'ping') {
         msg.reply('Pong!')
       }
@@ -26,12 +25,11 @@ class Bot {
     })
 
     // init bot
-
-    this.login(token)
+    this.client.login(token)
   }
 
   test() {
-    this.helpers.testChannel.send('My botty is Ready!')
+    this.client.helpers.testChannel.send('My botty is Ready!')
   }
 }
 
