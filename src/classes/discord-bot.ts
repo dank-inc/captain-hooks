@@ -1,20 +1,35 @@
-const Discord = require('discord.js')
+import Discord from 'discord.js'
+import { Server } from './server'
+
 const { commands: elijahCommands } = require('../commands/elijah')
 const { commands: erikCommands } = require('../commands/erik')
 const { commands: masterCommands } = require('../commands/master')
 
-class DiscordBot {
-  constructor({ testChannelId, token, server }) {
+export type DiscordBotCFG = {
+  testChannelId: string
+  token: string
+}
+
+type Props = DiscordBotCFG & {
+  server: Server
+}
+
+export class DiscordBot {
+  client: Discord.Client
+  server: Server
+  helpers: any // TODO: not this
+
+  constructor({ testChannelId, token, server }: Props) {
     this.client = new Discord.Client()
     this.server = server
     this.helpers = {}
 
     // event listeners - clean up later
     this.client.on('ready', () => {
-      this.client.user.setActivity('WITH MYSELF', { type: 'PLAYING' })
+      this.client.user?.setActivity('WITH MYSELF', { type: 'PLAYING' })
       this.helpers.testChannel = this.client.channels.cache.get(testChannelId)
       const members = this.client.users.cache
-      console.log(`My Botty is ready! => ${this.client.user.tag}!`)
+      console.log(`My Botty is ready! => ${this.client.user?.tag}!`)
     })
 
     this.client.on('message', (msg) => {
@@ -28,7 +43,7 @@ class DiscordBot {
       if (!command) return
 
       if (command.action) {
-        const response = this.server.execChatCommand(command.action, keyword)
+        const response = this.server.execChatAction(command.action, keyword)
         // send response
         return
       }
@@ -46,9 +61,7 @@ class DiscordBot {
     this.client.login(token)
   }
 
-  msg(msg) {
-    if (this.helpers.testChannel) this.helpers.testChannel.send(msg)
+  msg(body: string) {
+    if (this.helpers.testChannel) this.helpers.testChannel.send(body)
   }
 }
-
-module.exports = { DiscordBot }

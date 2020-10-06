@@ -1,13 +1,29 @@
-const express = require('express')
+import express from 'express'
 // moved all this in here so we get autocomplete
-const Knex = require('knex')
-const { parseChatArgs } = require('../utils/chat')
-const { DiscordBot } = require('./discord-bot')
-const { TwitchBot } = require('./twitch-bot')
-const { Controller } = require('./controller')
+import Knex from 'knex'
 
-class Server {
-  constructor({ twitchBot, discordBot, port, dbconfig }) {
+import { DiscordBot, DiscordBotCFG } from './discord-bot'
+import { TwitchBot, TwitchBotCFG } from './twitch-bot'
+import { ActionParams, Controller } from './controller'
+
+// utils
+import { parseChatArgs } from '../utils/chat'
+
+type Props = {
+  twitchBot?: TwitchBotCFG
+  discordBot?: DiscordBotCFG
+  port: number
+  dbconfig: Knex.Config
+}
+
+export class Server {
+  port: number
+  app: express.Express
+  bots: (DiscordBot | TwitchBot)[]
+  db: Knex
+  controller: Controller
+
+  constructor({ twitchBot, discordBot, port, dbconfig }: Props) {
     this.port = port
     this.app = express()
 
@@ -18,12 +34,12 @@ class Server {
     if (twitchBot) this.bots.push(new TwitchBot({ ...twitchBot, server: this }))
 
     this.db = Knex(dbconfig)
-    this.controller = new Controller({ db })
+    this.controller = new Controller({ db: this.db })
 
     // MOVE TO ROUTES
     this.app.get('/', (req, res) => res.send('yas queen!'))
     this.app.post('/alert', (req, res) => {
-      this.notifyAll(req.query.msg)
+      this.notifyAll(req.query.msg as string)
       res.send(req.query.msg)
     })
     this.app.get('/overlay', (req, res) =>
@@ -52,15 +68,15 @@ class Server {
     // TODO: Seed users table
   }
 
-  execHTTPAction(action, params) {
+  execHTTPAction(action: string, params: ActionParams) {
     this.controller.exec(action, params)
   }
 
-  execChatAction(action, keyword) {
+  execChatAction(action: string, keyword: string) {
     this.controller.exec(action, parseChatArgs(keyword))
   }
 
-  notifyAll(body) {
+  notifyAll(body: string) {
     // send message from every bot
     // bots can be an array honestly.
     for (const bot of this.bots) {
@@ -68,5 +84,3 @@ class Server {
     }
   }
 }
-
-module.exports = { Server }

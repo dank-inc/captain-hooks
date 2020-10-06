@@ -1,10 +1,32 @@
-const { Client } = require('tmi.js')
+import * as tmi from 'tmi.js'
+import { Server } from './server'
+
 const { commands } = require('../commands/elijah')
 
-class TwitchBot {
-  constructor({ debug, oauth, channels, noticeChannel, server }) {
+export type TwitchBotCFG = {
+  oauth: string
+  channels: string[]
+  noticeChannel: string
+  debug: boolean
+}
+
+type Props = {
+  debug: boolean
+  oauth: string
+  channels: string[]
+  noticeChannel: string
+  server: Server
+}
+
+export class TwitchBot {
+  server: Server
+  client: tmi.Client
+  noticeChannel: string
+
+  constructor({ debug, oauth, channels, noticeChannel, server }: Props) {
     this.server = server
-    this.client = new Client({
+
+    const options = {
       options: { debug },
       connection: {
         reconnect: true,
@@ -14,7 +36,8 @@ class TwitchBot {
         password: oauth,
       },
       channels,
-    })
+    }
+    this.client = tmi.Client(options)
     this.noticeChannel = noticeChannel
 
     this.client.connect()
@@ -25,7 +48,7 @@ class TwitchBot {
 
       const username = tags['username']
       const userId = tags['user-id']
-      const isSubscriber = tags.badges.subscriber
+      const isSubscriber = tags.badges?.subscriber
 
       // match keyword against commands
       console.log(channel, keyword)
@@ -35,7 +58,7 @@ class TwitchBot {
       if (!command) return
 
       if (command.action) {
-        const response = this.server.execChatCommand(command.action, keyword)
+        const response = this.server.execChatAction(command.action, keyword)
         // send response
         return
       }
@@ -45,7 +68,7 @@ class TwitchBot {
     })
   }
 
-  msg(body) {
+  msg(body: string) {
     this.client.say(this.noticeChannel, body)
     // send message
   }
