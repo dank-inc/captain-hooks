@@ -4,6 +4,7 @@ const Knex = require('knex')
 const { parseChatArgs } = require('../utils/chat')
 const { DiscordBot } = require('./discord-bot')
 const { TwitchBot } = require('./twitch-bot')
+const { Controller } = require('./controller')
 
 class Server {
   constructor({ twitchBot, discordBot, port, dbconfig }) {
@@ -17,8 +18,7 @@ class Server {
     if (twitchBot) this.bots.push(new TwitchBot({ ...twitchBot, server: this }))
 
     this.db = Knex(dbconfig)
-
-    this.state = {}
+    this.controller = new Controller({ db })
 
     // MOVE TO ROUTES
     this.app.get('/', (req, res) => res.send('yas queen!'))

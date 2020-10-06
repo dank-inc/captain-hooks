@@ -20,3 +20,5 @@ class Controller {
     return this.actions[action](params)
   }
 }
+
+module.exports = { Controller }
