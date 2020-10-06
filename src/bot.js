@@ -4,10 +4,12 @@ class Bot {
   constructor({ testChannelId, token }) {
     this.client = new Discord.Client()
 
+    this.helpers = {}
+
     // event listeners - clean up later
     this.client.on('ready', () => {
       this.client.user.setActivity('WITH MYSELF', { type: 'PLAYING' })
-
+      this.helpers.testChannel = this.client.channels.cache.get(testChannelId)
       const members = this.client.users.cache
       console.log(`My Botty is ready! => ${this.client.user.tag}!`)
     })
@@ -24,6 +26,7 @@ class Bot {
   }
 
   test() {
+    if (this.helpers.testChannel) this.helpers.testChannel.send('YAAA')
     // do something im giving up on you
   }
 }
