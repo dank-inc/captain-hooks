@@ -1,10 +1,25 @@
 const express = require('express')
 
 class Server {
-  constructor({ discordBot, port }) {
+  constructor({ twitchBot, discordBot, port }) {
     this.port = port
     this.app = express()
     this.discordBot = discordBot
+    this.twitchBot = twitchBot
+
+    this.discordBot.attachServer(this)
+    this.twitchBot.attachServer(this)
+
+    this.state = {}
+
+    this.app.get('/', (req, res) => res.send('yas queen!'))
+    this.app.post('/alert', (req, res) => {
+      this.notifyAll(req.query.msg)
+      res.send(req.query.msg)
+    })
+    this.app.get('/overlay', (req, res) =>
+      res.send('TODO: return static streaming overlay')
+    )
   }
 
   start() {
@@ -13,8 +28,10 @@ class Server {
     })
   }
 
-  notifyAll() {
+  notifyAll(msg) {
     // send message from every bot
+    if (this.discordBot) this.discordBot.msg(msg)
+    if (this.twitchBot) this.twitchBot.msg(msg)
   }
 }
 

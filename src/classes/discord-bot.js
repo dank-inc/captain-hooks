@@ -37,9 +37,12 @@ class DiscordBot {
     this.client.login(token)
   }
 
-  test() {
-    if (this.helpers.testChannel) this.helpers.testChannel.send('YAAA')
-    // do something im giving up on you
+  attachServer(server) {
+    this.server = server
+  }
+
+  msg(msg) {
+    if (this.helpers.testChannel) this.helpers.testChannel.send(msg)
   }
 }
 
