@@ -2,7 +2,7 @@ const Discord = require('discord.js')
 const { commands: elijahCommands } = require('../commands/elijah')
 const { commands: erikCommands } = require('../commands/erik')
 
-class Bot {
+class DiscordBot {
   constructor({ testChannelId, token }) {
     this.client = new Discord.Client()
 
@@ -43,4 +43,4 @@ class Bot {
   }
 }
 
-module.exports = { Bot }
+module.exports = { DiscordBot }

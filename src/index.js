@@ -1,9 +1,9 @@
 require('dotenv').config()
 
-const { Bot } = require('./classes/bot')
+const { DiscordBot } = require('./classes/discord-bot')
 const { Server } = require('./classes/server')
 
-const bot = new Bot({
+const bot = new DiscordBot({
   testChannelId: process.env.DISCORD_TEST_CHANNEL_ID,
   token: process.env.DISCORD_TOKEN,
 })
