@@ -24,19 +24,21 @@ export class Server {
   db: Knex
   controller: Controller
   commands: Record<string, { action: string }>
+  state: Record<string, any>
 
   constructor({ twitchBot, discordBot, port, dbconfig }: Props) {
     this.port = port
     this.app = express()
 
     this.bots = []
+    this.state = {}
     // only enable the bots we want
     if (discordBot)
       this.bots.push(new DiscordBot({ ...discordBot, server: this }))
     if (twitchBot) this.bots.push(new TwitchBot({ ...twitchBot, server: this }))
 
     this.db = Knex(dbconfig)
-    this.controller = new Controller({ db: this.db })
+    this.controller = new Controller({ db: this.db, server: this })
     this.commands = commands
 
     // MOVE TO ROUTES
@@ -72,13 +74,16 @@ export class Server {
   }
 
   execHTTPAction(action: string, params: ActionParams) {
+    // pass in metadata from auth
     this.controller.exec(action, params)
   }
 
   execChatAction(keyword: string): string {
+    // TODO: pass thru message metadata for checks against db, etc
     const action = this.commands[keyword]?.action
     if (!action) return "Can't find that command 😣"
 
+    this.state.lastCommand = action
     return this.controller.exec(action, parseChatArgs(keyword))
   }
 
