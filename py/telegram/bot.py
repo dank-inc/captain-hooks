@@ -19,6 +19,7 @@ def escape_html(text):
 @client.on(events.NewMessage(incoming=True))
 async def incoming_message(event):
     print(event.message.text)
+    
     text = event.raw_text
     sender = event.sender_id
     chained_cmd = event.message
