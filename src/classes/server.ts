@@ -68,7 +68,7 @@ export class Server {
 
   execHTTPAction(action: string, params: ActionParams) {
     // pass in metadata from auth
-    this.controller.exec(action, params)
+    return this.controller.exec(action, params)
   }
 
   execChatAction(keyword: string): string {
