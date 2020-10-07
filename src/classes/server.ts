@@ -9,6 +9,7 @@ import { commands } from '../commands/master'
 
 // utils
 import { parseChatArgs } from '../utils/chat'
+import { Routes } from './routes'
 
 type Props = {
   twitchBot?: TwitchBotCFG
@@ -23,6 +24,7 @@ export class Server {
   bots: (DiscordBot | TwitchBot)[]
   db: Knex
   controller: Controller
+  routes: Routes
   commands: Record<string, { action: string }>
   state: Record<string, any>
 
@@ -39,17 +41,8 @@ export class Server {
 
     this.db = Knex(dbconfig)
     this.controller = new Controller({ db: this.db, server: this })
+    this.routes = new Routes({ server: this })
     this.commands = commands
-
-    // MOVE TO ROUTES
-    this.app.get('/', (req, res) => res.send('yas queen!'))
-    this.app.post('/alert', (req, res) => {
-      this.notifyAll(req.query.msg as string)
-      res.send(req.query.msg)
-    })
-    this.app.get('/overlay', (req, res) =>
-      res.send('TODO: return static streaming overlay')
-    )
   }
 
   // should have some universal message handlers, so we can tie in a central data store, so people can interact from any place (web, twitch, discord, telegram, twitter, etc)

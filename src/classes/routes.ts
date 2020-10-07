@@ -1,4 +1,4 @@
-import { Express } from 'express'
+import { ActionParams } from './controller'
 import { Server } from './server'
 
 type Props = {
@@ -10,11 +10,21 @@ export class Routes {
   constructor({ server }: Props) {
     this.server = server
 
+    // MOVE TO ROUTES
+    this.server.app.get('/', (req, res) => res.send('yas queen!'))
+    this.server.app.post('/alert', (req, res) => {
+      this.server.notifyAll(req.query.msg as string)
+      res.send(req.query.msg)
+    })
+    this.server.app.get('/overlay', (req, res) =>
+      res.send('TODO: return static streaming overlay')
+    )
+
     // build all the routes and shit
     // handles parsing of http request body and crap
   }
 
-  execController(action, params) {
+  exec(action: string, params: ActionParams) {
     // package HTTP Params
     this.server.execHTTPAction(action, params)
   }
