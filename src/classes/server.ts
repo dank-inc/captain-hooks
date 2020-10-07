@@ -5,6 +5,7 @@ import Knex from 'knex'
 import { DiscordBot, DiscordBotCFG } from './discord-bot'
 import { TwitchBot, TwitchBotCFG } from './twitch-bot'
 import { ActionParams, Controller } from './controller'
+import { commands } from '../commands/master'
 
 // utils
 import { parseChatArgs } from '../utils/chat'
@@ -22,6 +23,7 @@ export class Server {
   bots: (DiscordBot | TwitchBot)[]
   db: Knex
   controller: Controller
+  commands: Record<string, { action: string }>
 
   constructor({ twitchBot, discordBot, port, dbconfig }: Props) {
     this.port = port
@@ -35,6 +37,7 @@ export class Server {
 
     this.db = Knex(dbconfig)
     this.controller = new Controller({ db: this.db })
+    this.commands = commands
 
     // MOVE TO ROUTES
     this.app.get('/', (req, res) => res.send('yas queen!'))
@@ -72,8 +75,11 @@ export class Server {
     this.controller.exec(action, params)
   }
 
-  execChatAction(action: string, keyword: string) {
-    this.controller.exec(action, parseChatArgs(keyword))
+  execChatAction(keyword: string): string {
+    const action = this.commands[keyword]?.action
+    if (!action) return "Can't find that command 😣"
+
+    return this.controller.exec(action, parseChatArgs(keyword))
   }
 
   notifyAll(body: string) {

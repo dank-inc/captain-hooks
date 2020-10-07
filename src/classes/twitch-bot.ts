@@ -1,8 +1,6 @@
 import * as tmi from 'tmi.js'
 import { Server } from './server'
 
-const { commands } = require('../commands/elijah')
-
 export type TwitchBotCFG = {
   oauth: string
   channels: string[]
@@ -45,26 +43,16 @@ export class TwitchBot {
 
     this.client.on('message', (channel, tags, message, self) => {
       const keyword = message.split(' ')[0]
+      if (keyword[0] !== '!') return
 
       const username = tags['username']
       const userId = tags['user-id']
       const isSubscriber = tags.badges?.subscriber
 
-      // match keyword against commands
       console.log(channel, keyword)
 
-      const command = commands[keyword]
-
-      if (!command) return
-
-      if (command.action) {
-        const response = this.server.execChatAction(command.action, keyword)
-        // send response
-        return
-      }
-
-      console.log(command)
-      this.client.say(channel, command.reply)
+      const response = this.server.execChatAction(keyword)
+      this.client.say(channel, response)
     })
   }
 

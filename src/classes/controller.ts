@@ -30,7 +30,11 @@ export class Controller {
     }
   }
 
-  exec(action: string, params: ActionParams) {
-    return this.actions[action](params)
+  exec(action: string, params: ActionParams): string {
+    const controller = this.actions[action]
+    console.log('ACTION =>', action, params, this.actions)
+    console.log('test', this.actions['dice.d6'])
+    if (!controller) return 'That command does not exist!'
+    return controller(params)
   }
 }

@@ -1,10 +1,6 @@
 import Discord from 'discord.js'
 import { Server } from './server'
 
-const { commands: elijahCommands } = require('../commands/elijah')
-const { commands: erikCommands } = require('../commands/erik')
-const { commands: masterCommands } = require('../commands/master')
-
 export type DiscordBotCFG = {
   testChannelId: string
   token: string
@@ -33,28 +29,18 @@ export class DiscordBot {
     })
 
     this.client.on('message', (msg) => {
+      console.log(
+        msg.guild?.name,
+        msg.channel?.id,
+        msg.member?.displayName,
+        msg.content
+      )
+
       const keyword = msg.content.split(' ')[0]
+      if (keyword[0] !== '!') return
 
-      const command = { ...elijahCommands, ...erikCommands, ...masterCommands }[
-        keyword
-      ]
-
-      console.log('command response', keyword, command)
-      if (!command) return
-
-      if (command.action) {
-        const response = this.server.execChatAction(command.action, keyword)
-        // send response
-        return
-      }
-
-      msg.reply(command.reply)
-
-      if (msg.content === 'ping') {
-        msg.reply('Pong!')
-      }
-
-      console.log(msg.channel.id, msg.content)
+      const response = this.server.execChatAction(keyword)
+      msg.reply(response)
     })
 
     // init bot

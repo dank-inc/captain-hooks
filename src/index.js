@@ -12,9 +12,9 @@ const discordBot = process.env.DISCORD_TOKEN
 const twitchBot = process.env.TWITCH_BOT_OAUTH
   ? {
       oauth: process.env.TWITCH_BOT_OAUTH,
-      channels: ['eli7vh', 'missyjo_pinup'],
+      channels: ['eli7vh'],
       noticeChannel: '#eli7vh',
-      debug: true,
+      debug: false,
     }
   : undefined
 
