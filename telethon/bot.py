@@ -11,7 +11,7 @@ API_HASH = '00c171d347a5140ddf2212157ab2a37a'
 client = TelegramClient(SESSION, API_ID, API_HASH, sequential_updates=True)
 client.start(settings.PHONE_NUMBER)
 
-client.send_message(SANDBOX, 'dankbot is here!')
+client.send_message(SANDBOX, 'captain hooks is here!')
 
 def escape_html(text):
     return text.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
