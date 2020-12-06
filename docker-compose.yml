@@ -11,3 +11,6 @@ services:
   telethon:
     build:
       context: ./telethon
+    volumes:
+      - ./telethon:/usr/src/telethon
+    command: ["python", "bot.py"]
