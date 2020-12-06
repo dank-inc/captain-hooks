@@ -24,8 +24,10 @@ export class DiscordBot {
     this.client.on('ready', () => {
       this.client.user?.setActivity('WITH MYSELF', { type: 'PLAYING' })
       this.helpers.testChannel = this.client.channels.cache.get(testChannelId)
-      const members = this.client.users.cache
-      console.log(`My Botty is ready! => ${this.client.user?.tag}!`)
+      // const members = this.client.users.cache
+
+      this.helpers.testChannel.send('Captain Hooks is online!')
+      console.log(`Test Channel Ready! => ${this.client.user?.tag}!`)
     })
 
     this.client.on('message', (msg) => {
@@ -44,7 +46,12 @@ export class DiscordBot {
     })
 
     // init bot
-    this.client.login(token)
+    this.init(token)
+  }
+
+  init = async (token: string) => {
+    await this.client.login(token)
+    console.log(`Discord bot logged in!`)
   }
 
   msg(body: string) {
