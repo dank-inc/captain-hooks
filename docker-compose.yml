@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+  captainhooks:
+    build:
+      context: ./js
+    volumes:
+      - ./js:/usr/src/captain-hooks
+    command: ["npm", "run", "start"]
+
+  telethon:
+    build:
+      context: ./py

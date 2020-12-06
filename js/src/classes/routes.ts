@@ -1,13 +1,15 @@
-import { ActionParams } from './controller'
+// @ts-nocheck
+import { ActionParams, Controller } from './controller'
 import { Server } from './server'
 
 type Props = {
   server: Server
+  controller: Controller
 }
 
 export class Routes {
   server: Server
-  constructor({ server }: Props) {
+  constructor({ server, controller }: Props) {
     this.server = server
 
     // MOVE TO ROUTES
@@ -21,6 +23,26 @@ export class Routes {
     this.server.app.get('/overlay', (req, res) =>
       res.send('TODO: return static streaming overlay')
     )
+
+    this.server.app.get('/commands', (req, res) => {
+      res.send(
+        Object.keys(controller.actions).map(
+          (name) => `${process.env.COMMAND_PREFIX}${name}`
+        )
+      )
+    })
+
+    Object.keys(controller.actions).map((name) => {
+      this.server.app.post('/commands/:id', (req, res) => {
+        const action = controller.actions[name]
+
+        if (action) {
+          res.send(action())
+        } else {
+          res.send('Shit doesnt exist')
+        }
+      })
+    })
 
     this.server.app.get('/dice/d6', (req, res) => {
       res.send(this.exec('rolld6'))

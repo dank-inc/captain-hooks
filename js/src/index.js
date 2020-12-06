@@ -1,5 +1,9 @@
 require('dotenv').config()
 
+const { S3Uploader } = require('./classes/s3uploader')
+
+const s3 = new S3Uploader()
+
 const { Server } = require('./classes/server')
 
 const discordBot = process.env.DISCORD_TOKEN

@@ -25,10 +25,12 @@ export class Controller {
       commands: () => Object.keys(this.server.commands).join(', '),
       ping: () => 'pong',
       interesting: () => `hmmm... yes... quite... 🤔`,
+
       rolld6: (params: ActionParams) =>
         (Math.floor(Math.random() * 6) + 1).toString(), // returns string
       rolld20: (params: ActionParams) =>
         (Math.floor(Math.random() * 20) + 1).toString(), // returns string
+
       getUser: ({ username }: ActionParams) => {
         return this.db.table('users').where({ username }).first.toString() //.get({ username }).then().toJson()
       },
