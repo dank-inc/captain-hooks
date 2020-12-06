@@ -11,7 +11,12 @@ export class S3Uploader {
 
     this.s3.listBuckets((err, data) => {
       console.log('listing buckets...')
-      if (err) throw new Error("Can't list buckets for whatever reason")
+      if (err) {
+        console.error(
+          "Can't list buckets for whatever reason - do you have keys set?"
+        )
+        return
+      }
 
       console.log('AWS BUCKETS =>', data.Buckets)
     })

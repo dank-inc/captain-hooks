@@ -4,12 +4,11 @@ import { Server } from './server'
 
 type Props = {
   server: Server
-  controller: Controller
 }
 
 export class Routes {
   server: Server
-  constructor({ server, controller }: Props) {
+  constructor({ server }: Props) {
     this.server = server
 
     // MOVE TO ROUTES
@@ -26,13 +25,13 @@ export class Routes {
 
     this.server.app.get('/commands', (req, res) => {
       res.send(
-        Object.keys(controller.actions).map(
+        Object.keys(server.controller.actions).map(
           (name) => `${process.env.COMMAND_PREFIX}${name}`
         )
       )
     })
 
-    Object.keys(controller.actions).map((name) => {
+    Object.keys(server.controller.actions).map((name) => {
       this.server.app.post('/commands/:id', (req, res) => {
         const action = controller.actions[name]
 
