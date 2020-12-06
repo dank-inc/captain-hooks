@@ -18,7 +18,7 @@ type Props = {
   dbconfig: Knex.Config
 }
 
-export class Server {
+export interface Server {
   port: number
   app: express.Express
   bots: (DiscordBot | TwitchBot)[]
@@ -27,7 +27,9 @@ export class Server {
   routes: Routes
   commands: Record<string, { action: string }>
   state: Record<string, any>
+}
 
+export class Server {
   constructor({ twitchBot, discordBot, port, dbconfig }: Props) {
     this.port = port
     this.app = express()
@@ -35,9 +37,10 @@ export class Server {
     this.bots = []
     this.state = {}
     // only enable the bots we want
-    if (discordBot)
+    if (discordBot?.token)
       this.bots.push(new DiscordBot({ ...discordBot, server: this }))
-    if (twitchBot) this.bots.push(new TwitchBot({ ...twitchBot, server: this }))
+    if (twitchBot?.oauth)
+      this.bots.push(new TwitchBot({ ...twitchBot, server: this }))
 
     this.db = Knex(dbconfig)
     this.controller = new Controller({ db: this.db, server: this })

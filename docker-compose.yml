@@ -1,12 +1,14 @@
 version: "3"
 
 services:
-  captainhooks:
+  server:
     build:
       context: ./server
     volumes:
       - ./server:/usr/src/captain-hooks
     command: ["npm", "run", "start"]
+    ports:
+      - 8882:8882
 
   telethon:
     build:

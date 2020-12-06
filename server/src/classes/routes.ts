@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { ActionParams, Controller } from './controller'
 import { Server } from './server'
 
@@ -33,7 +32,7 @@ export class Routes {
 
     Object.keys(server.controller.actions).map((name) => {
       this.server.app.post('/commands/:id', (req, res) => {
-        const action = controller.actions[name]
+        const action = this.server.controller.actions[name]
 
         if (action) {
           res.send(action())

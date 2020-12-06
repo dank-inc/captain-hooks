@@ -1,7 +1,7 @@
 import Knex from 'knex'
 import { Server } from './server'
 
-export type ActionMap = Record<string, (params: ActionParams) => string>
+export type ActionMap = Record<string, (params?: ActionParams) => string>
 
 // TODO add message metadata to params
 export type ActionParams = Record<string, number | string>
@@ -26,13 +26,12 @@ export class Controller {
       ping: () => 'pong',
       interesting: () => `hmmm... yes... quite... 🤔`,
 
-      rolld6: (params: ActionParams) =>
-        (Math.floor(Math.random() * 6) + 1).toString(), // returns string
-      rolld20: (params: ActionParams) =>
-        (Math.floor(Math.random() * 20) + 1).toString(), // returns string
+      rolld6: () => (Math.floor(Math.random() * 6) + 1).toString(),
+      rolld20: () => (Math.floor(Math.random() * 20) + 1).toString(),
 
-      getUser: ({ username }: ActionParams) => {
-        return this.db.table('users').where({ username }).first.toString() //.get({ username }).then().toJson()
+      // @ts-ignore
+      getUser: ({ username }) => {
+        return this.db.table('users').where({ username }).first.toString()
       },
     }
   }
