@@ -5,7 +5,6 @@ import Knex from 'knex'
 import { DiscordBot, DiscordBotCFG } from './discord-bot'
 import { TwitchBot, TwitchBotCFG } from './twitch-bot'
 import { ActionParams, Controller } from './controller'
-import { commands } from '../commands/master'
 
 // utils
 import { parseChatArgs } from '../utils/chat'
@@ -25,7 +24,6 @@ export interface Server {
   db: Knex
   controller: Controller
   routes: Routes
-  commands: Record<string, { action: string }>
   state: Record<string, any>
 }
 
@@ -45,7 +43,6 @@ export class Server {
     this.db = Knex(dbconfig)
     this.controller = new Controller({ db: this.db, server: this })
     this.routes = new Routes({ server: this })
-    this.commands = commands
   }
 
   // should have some universal message handlers, so we can tie in a central data store, so people can interact from any place (web, twitch, discord, telegram, twitter, etc)
@@ -74,13 +71,18 @@ export class Server {
     return this.controller.exec(action, params)
   }
 
-  execChatAction(keyword: string): string {
+  async execChatAction(
+    keyword: string,
+    params: Record<string, string | number>
+  ): Promise<string> {
     // TODO: pass thru message metadata for checks against db, etc
-    const action = this.commands[keyword]?.action
+
+    const action = this.controller.actions[keyword]
     if (!action) return "Can't find that command 😣"
 
-    this.state.lastCommand = action
-    return this.controller.exec(action, parseChatArgs(keyword))
+    this.state.lastCommand = keyword
+
+    return await this.controller.exec(keyword, parseChatArgs(params))
   }
 
   notifyAll(body: string) {

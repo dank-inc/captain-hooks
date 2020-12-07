@@ -1,7 +1,11 @@
 import Knex from 'knex'
 import { Server } from './server'
+import { getPhoto } from './unsplash'
 
-export type ActionMap = Record<string, (params?: ActionParams) => string>
+export type ActionMap = Record<
+  string,
+  (params?: ActionParams) => Promise<string>
+>
 
 // TODO add message metadata to params
 export type ActionParams = Record<string, number | string>
@@ -21,26 +25,30 @@ export class Controller {
     this.db = db
     this.server = server
 
+    // TODO: Put this into various files or soemthing
+    // this.actions = { ...d20, ...general, ...blah }
     this.actions = {
-      commands: () => Object.keys(this.server.commands).join(', '),
-      ping: () => 'pong',
-      interesting: () => `hmmm... yes... quite... 🤔`,
-
-      rolld6: () => (Math.floor(Math.random() * 6) + 1).toString(),
-      rolld20: () => (Math.floor(Math.random() * 20) + 1).toString(),
-
+      commands: async () => Object.keys(this.actions).join(', '),
+      ping: async () => 'pong',
+      interesting: async () => `hmmm... yes... quite... 🤔`,
+      rolld6: async () => {
+        console.log('D6')
+        return (Math.floor(Math.random() * 6) + 1).toString()
+      },
+      rolld20: async () => (Math.floor(Math.random() * 20) + 1).toString(),
+      photo: async () => await getPhoto(),
       // @ts-ignore
-      getUser: ({ username }) => {
+      getUser: async ({ username }) => {
         return this.db.table('users').where({ username }).first.toString()
       },
     }
   }
 
-  exec(action: string, params: ActionParams): string {
+  async exec(action: string, params: ActionParams): Promise<string> {
     const controller = this.actions[action]
 
-    return controller
-      ? controller(params)
-      : 'Something went wrong - yell at Elijah!'
+    if (!controller) return 'Something went wrong - yell at Elijah!'
+
+    return await controller(params)
   }
 }

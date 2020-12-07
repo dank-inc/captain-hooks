@@ -30,7 +30,7 @@ export class DiscordBot {
       console.log(`Test Channel Ready! => ${this.client.user?.tag}!`)
     })
 
-    this.client.on('message', (msg) => {
+    this.client.on('message', async (msg) => {
       console.log(
         msg.guild?.name,
         msg.channel?.id,
@@ -41,7 +41,9 @@ export class DiscordBot {
       const keyword = msg.content.split(' ')[0]
       if (keyword[0] !== '!') return
 
-      const response = this.server.execChatAction(keyword)
+      const args = {}
+
+      const response = await this.server.execChatAction(keyword.slice(1), args)
       msg.reply(response)
     })
 

@@ -41,7 +41,7 @@ export class TwitchBot {
     this.client.connect()
     console.log('Twitch bot be twitchin')
 
-    this.client.on('message', (channel, tags, message, self) => {
+    this.client.on('message', async (channel, tags, message, self) => {
       const keyword = message.split(' ')[0]
       if (keyword[0] !== '!') return
 
@@ -51,7 +51,9 @@ export class TwitchBot {
 
       console.log(channel, keyword)
 
-      const response = this.server.execChatAction(keyword)
+      const args = {}
+
+      const response = await this.server.execChatAction(keyword.slice(1), args)
       this.client.say(channel, response)
     })
   }
