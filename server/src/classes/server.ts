@@ -44,14 +44,12 @@ export class Server {
     this.controller = new Controller({ db: this.db, server: this })
     this.routes = new Routes({ server: this })
   }
-
   // should have some universal message handlers, so we can tie in a central data store, so people can interact from any place (web, twitch, discord, telegram, twitter, etc)
 
   start() {
     this.app.listen(this.port, () => {
       console.log('Server is online! port =>', this.port)
     })
-
     // DB SCHEMA SHIT
 
     this.db.schema
@@ -71,12 +69,7 @@ export class Server {
     return this.controller.exec(action, params)
   }
 
-  async execChatAction(
-    keyword: string,
-    params: Record<string, string | number>
-  ): Promise<string> {
-    // TODO: pass thru message metadata for checks against db, etc
-
+  async execChatAction(keyword: string, params: string[]): Promise<string> {
     const action = this.controller.actions[keyword]
     if (!action) return "Can't find that command 😣"
 

@@ -24,7 +24,6 @@ export class Controller {
     // dependency inject whatever data points we need.
     this.db = db
     this.server = server
-
     // TODO: Put this into various files or soemthing
     // this.actions = { ...d20, ...general, ...blah }
     this.actions = {
@@ -36,7 +35,8 @@ export class Controller {
         return (Math.floor(Math.random() * 6) + 1).toString()
       },
       rolld20: async () => (Math.floor(Math.random() * 20) + 1).toString(),
-      photo: async () => await getPhoto(),
+      // @ts-ignore
+      photo: async (params) => await getPhoto(params),
       // @ts-ignore
       getUser: async ({ username }) => {
         return this.db.table('users').where({ username }).first.toString()

@@ -1,6 +1,13 @@
-export const parseChatArgs = (params: Record<string, string | number>) => {
-  // Query params
-  // do some funky shit to get chat params and put in below object
+export const parseChatArgs = (
+  content: string[]
+): Record<string, string | number> => {
+  // expect ["blah=bleh", "blah=bleh", "what", "doing"]
 
-  return {}
+  // strip non params
+  const args = content.filter((w) => w.includes('='))
+
+  // @ts-ignore
+  const params = Object.fromEntries(args.map((i) => i.split('=')))
+
+  return params
 }

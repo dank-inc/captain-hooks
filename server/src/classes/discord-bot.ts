@@ -38,12 +38,15 @@ export class DiscordBot {
         msg.content
       )
 
-      const keyword = msg.content.split(' ')[0]
+      const content = msg.content.split(' ')
+
+      const keyword = content[0]
       if (keyword[0] !== '!') return
 
-      const args = {}
-
-      const response = await this.server.execChatAction(keyword.slice(1), args)
+      const response = await this.server.execChatAction(
+        keyword.slice(1),
+        content.slice(1)
+      )
       msg.reply(response)
     })
 
