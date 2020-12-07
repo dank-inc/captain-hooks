@@ -18,8 +18,10 @@ export const getPhoto = async (params?: UnsplashParams): Promise<any> => {
 
     console.log('GOT PHOTO', res.config.params)
     return res.data.urls.small
-  } catch {
-    console.error('FAILLL')
-    return 'CAUGHT ERROR'
+  } catch (err) {
+    console.error('FAILLL', err)
+    return `Failed! try this: https://source.unsplash.com/random${
+      params?.query ? `?${params.query}` : ''
+    }`
   }
 }
