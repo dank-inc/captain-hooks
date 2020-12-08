@@ -9,6 +9,7 @@ import { ActionParams, Controller } from './controller'
 // utils
 import { parseChatArgs } from '../utils/chat'
 import { Routes } from './routes'
+import { schema } from '../db'
 
 type Props = {
   twitchBot?: TwitchBotCFG
@@ -55,23 +56,28 @@ export class Server {
   }
   // should have some universal message handlers, so we can tie in a central data store, so people can interact from any place (web, twitch, discord, telegram, twitter, etc)
 
-  start() {
+  async start() {
     this.app.listen(this.port, () => {
       console.log('Server is online! port =>', this.port)
     })
 
     // DB SCHEMA SHIT
+    schema.map(async (table) => {
+      await this.db.schema.dropTableIfExists(table.name)
+      console.log(`${table.name} Table Dropped!`)
 
-    this.db.schema
-      .dropTableIfExists('users')
-      .then(() => console.log('Users Table Dropped!'))
-    this.db.schema
-      .createTable('users', (table) => {
-        table.increments(), table.string('username')
-        table.timestamps()
+      await this.db.schema.createTable(table.name, (newTable) => {
+        newTable.increments()
+        newTable.timestamps()
+        table.fields.map((field) => {
+          newTable[field.type](field.name)
+        })
       })
-      .then(() => console.log('Users Table Created!'))
+      console.log(`${table.name} Table Created!`)
+    })
+
     // TODO: Seed users table
+    // db/seeds foreach
   }
 
   execHTTPAction(action: string, params: ActionParams) {
