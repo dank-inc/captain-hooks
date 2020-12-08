@@ -10,8 +10,8 @@ export class Routes {
   constructor({ server }: Props) {
     this.server = server
 
-    // MOVE TO ROUTES
-    this.server.app.get('/', (req, res) => res.send('yas queen!'))
+    // ADMIN SHIT
+    this.server.app.get('/', (req, res) => res.send('TODO: serve client'))
 
     this.server.app.post('/alert', (req, res) => {
       this.server.notifyAll(req.query.msg as string)
@@ -22,6 +22,7 @@ export class Routes {
       res.send('TODO: return static streaming overlay')
     )
 
+    // COMMANDS
     this.server.app.get('/commands', (req, res) => {
       res.send(
         Object.keys(server.controller.actions).map(
@@ -42,8 +43,15 @@ export class Routes {
       })
     })
 
-    this.server.app.get('/dice/d6', (req, res) => {
-      res.send(this.exec('rolld6'))
+    // REST ROUTES (GENERATE FROM LIST OF RESOURCES)
+    this.server.app.get('/api/users', async (req, res) => {
+      res.send(await this.server.db.select().from('users'))
+    })
+
+    this.server.app.get('/api/users/:id', async ({ params }, res) => {
+      res.send(
+        await this.server.db.select().from('users').where('id', '=', params.id)
+      )
     })
 
     // build all the routes and shit

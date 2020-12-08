@@ -21,6 +21,7 @@ export class Controller {
   server: Server
 
   constructor({ db, server }: Props) {
+    // TODO: split this up into COMMANDS and REST SHIT
     // dependency inject whatever data points we need.
     this.db = db
     this.server = server

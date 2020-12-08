@@ -1,14 +1,23 @@
-version: "3"
+version: "3.7"
 
 services:
   server:
     build:
       context: ./server
     volumes:
-      - ./server:/usr/src/captain-hooks
+      - ./server:/usr/src/server
     command: ["npm", "run", "start"]
     ports:
       - 8882:8882
+
+  frontend:
+    build:
+      context: ./frontend
+    volumes:
+      - ./frontend:/usr/src/frontend
+    command: ["npm", "run", "start"]
+    ports:
+      - 4200:4200
 
   telethon:
     build:

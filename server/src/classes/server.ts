@@ -32,6 +32,15 @@ export class Server {
     this.port = port
     this.app = express()
 
+    this.app.use((req, res, next) => {
+      res.header('Access-Control-Allow-Origin', '*')
+      res.header(
+        'Access-Control-Allow-Headers',
+        'Origin, X-Requested-With, Content-Type, Accept'
+      )
+      next()
+    })
+
     this.bots = []
     this.state = {}
     // only enable the bots we want
@@ -50,6 +59,7 @@ export class Server {
     this.app.listen(this.port, () => {
       console.log('Server is online! port =>', this.port)
     })
+
     // DB SCHEMA SHIT
 
     this.db.schema
