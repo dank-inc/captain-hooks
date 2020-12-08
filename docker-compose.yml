@@ -15,6 +15,7 @@ services:
       context: ./frontend
     volumes:
       - ./frontend:/usr/src/frontend
+      - /usr/src/frontend/node_modules
     command: ["npm", "run", "start"]
     ports:
       - 4200:4200

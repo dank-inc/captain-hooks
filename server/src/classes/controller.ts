@@ -38,9 +38,16 @@ export class Controller {
       rolld20: async () => (Math.floor(Math.random() * 20) + 1).toString(),
       // @ts-ignore
       photo: async (params) => await getPhoto(params),
+
+      // TODO: RESTIFY THIS
+      users: async () => {
+        return (await this.db.select().from('users'))
+          .map((u) => u.name)
+          .join(', ')
+      },
       // @ts-ignore
-      getUser: async ({ username }) => {
-        return this.db.table('users').where({ username }).first.toString()
+      getUser: async ({ name }) => {
+        return this.db.table('users').where({ name }).first.toString()
       },
     }
   }

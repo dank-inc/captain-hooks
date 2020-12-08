@@ -1,0 +1,6 @@
+<h2>User List - {{ users.length }} users</h2>
+
+<app-user-list-edit></app-user-list-edit>
+<hr />
+<p *ngFor="let user of users">ID: {{ user.id }} - {{ user.name }}</p>
+<app-user-chip></app-user-chip>
