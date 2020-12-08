@@ -1,9 +1,4 @@
-import { userInfo } from 'os'
-// DB TYPES
-type User = {
-  id: number
-  name: string
-}
+import { TableNames } from '../types/db'
 
 // SCHEMA TYPES
 type Field = {
@@ -11,15 +6,17 @@ type Field = {
   type: 'string' | 'integer' | 'timestamp'
 }
 type Table = {
-  name: string
+  name: TableNames
   fields: Field[]
 }
 type Schema = Table[]
 
+// TODO Type safe table names
+
 // THE SCHEMA
 export const schema: Schema = [
   {
-    name: 'user',
+    name: 'users',
     fields: [{ name: 'name', type: 'string' }],
   },
 ]

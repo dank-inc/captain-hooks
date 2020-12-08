@@ -10,6 +10,7 @@ import { ActionParams, Controller } from './controller'
 import { parseChatArgs } from '../utils/chat'
 import { Routes } from './routes'
 import { schema } from '../db'
+import { seeds } from '../db/seeds'
 
 type Props = {
   twitchBot?: TwitchBotCFG
@@ -66,13 +67,26 @@ export class Server {
       await this.db.schema.dropTableIfExists(table.name)
       console.log(`${table.name} Table Dropped!`)
 
-      await this.db.schema.createTable(table.name, (newTable) => {
-        newTable.increments()
-        newTable.timestamps()
-        table.fields.map((field) => {
-          newTable[field.type](field.name)
+      await this.db.schema
+        .createTable(table.name, (newTable) => {
+          newTable.increments()
+          newTable.timestamps()
+          table.fields.map((field) => {
+            newTable[field.type](field.name)
+          })
         })
-      })
+        .then(async () => {
+          const records = seeds[table.name]
+
+          await this.db(table.name).insert(
+            seeds[table.name].map((r: any) => ({
+              ...r,
+              created_at: new Date(),
+              updated_at: new Date(),
+            }))
+          )
+        })
+
       console.log(`${table.name} Table Created!`)
     })
 
