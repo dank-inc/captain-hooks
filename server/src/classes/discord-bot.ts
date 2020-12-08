@@ -26,7 +26,7 @@ export class DiscordBot {
       this.helpers.testChannel = this.client.channels.cache.get(testChannelId)
       // const members = this.client.users.cache
 
-      this.helpers.testChannel.send('Captain Hooks is online!')
+      // this.helpers.testChannel.send('Captain Hooks is online!')
       console.log(`Test Channel Ready! => ${this.client.user?.tag}!`)
     })
 

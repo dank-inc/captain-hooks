@@ -1,11 +1,11 @@
 import { userInfo } from 'os'
-// TODO: the magic!
-
+// DB TYPES
 type User = {
-  id: string
+  id: number
   name: string
 }
 
+// SCHEMA TYPES
 type Field = {
   name: string
   type: 'string' | 'integer' | 'timestamp'
@@ -16,6 +16,7 @@ type Table = {
 }
 type Schema = Table[]
 
+// THE SCHEMA
 export const schema: Schema = [
   {
     name: 'user',
