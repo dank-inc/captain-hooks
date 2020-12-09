@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { User } from 'src/types/User';
+import { environment } from 'src/environments/environment';
+import { User } from '../../shared/models/user.model';
 
 @Component({
   selector: 'app-user-list',
@@ -9,7 +10,6 @@ import { User } from 'src/types/User';
 })
 export class UserListComponent implements OnInit {
   users: User[] = [];
-  API = 'http://localhost:8882/api';
 
   constructor(private http: HttpClient) {}
 
@@ -19,9 +19,11 @@ export class UserListComponent implements OnInit {
   }
 
   getUsers() {
-    this.http.get<User[]>(`${this.API}/users`).subscribe((users) => {
-      console.log('Users Gotten', users);
-      this.users = users;
-    });
+    this.http
+      .get<User[]>(`${environment.api_host}/users`)
+      .subscribe((users) => {
+        console.log('Users Gotten', users);
+        this.users = users.map((u) => new User(u));
+      });
   }
 }
