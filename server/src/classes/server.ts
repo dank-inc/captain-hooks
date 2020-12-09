@@ -1,4 +1,5 @@
 import express from 'express'
+import bodyParser from 'body-parser'
 // moved all this in here so we get autocomplete
 import Knex from 'knex'
 
@@ -42,6 +43,8 @@ export class Server {
       )
       next()
     })
+
+    this.app.use(bodyParser.json())
 
     this.bots = []
     this.state = {}

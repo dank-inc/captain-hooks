@@ -1,0 +1,19 @@
+<a
+  href="#users/{{ user.id }}"
+  class="list-group-item flex-column list-group-item-action"
+>
+  <div class="d-flex w-100 justify-content-between">
+    <div>
+      <h4 class="mb-1">ID: {{ user.id }}</h4>
+      <p class="list-group-item-text">{{ user.name }}</p>
+    </div>
+    <span>
+      <img
+        height="100"
+        src="https://source.unsplash.com/random?landscape"
+        [alt]="user.name"
+        class="img-responsive"
+      />
+    </span>
+  </div>
+</a>

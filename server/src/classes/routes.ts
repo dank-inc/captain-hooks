@@ -44,14 +44,21 @@ export class Routes {
     })
 
     // REST ROUTES (GENERATE FROM LIST OF RESOURCES)
-    this.server.app.get('/api/users', async (req, res) => {
+    // TODO: move logic to controllers
+    this.server.app.get('/api/users', async (req, res) =>
       res.send(await this.server.db.select().from('users'))
-    })
+    )
 
-    this.server.app.get('/api/users/:id', async ({ params }, res) => {
+    this.server.app.get('/api/users/:id', async ({ params }, res) =>
       res.send(
         await this.server.db.select().from('users').where('id', '=', params.id)
       )
+    )
+
+    this.server.app.post('/api/users', async (req, res) => {
+      console.log('>>> BODY >>>', req.body)
+      const record = await this.server.db('users').insert(req.body)
+      res.send(record)
     })
 
     // build all the routes and shit
