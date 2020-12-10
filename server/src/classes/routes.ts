@@ -45,9 +45,13 @@ export class Routes {
     })
 
     // REST ROUTES (GENERATE FROM LIST OF RESOURCES)
+
     // TODO: move logic to controllers
     this.server.app.get('/api/users', async (req, res) =>
       res.send(await this.server.db.select().from('users'))
+    )
+    this.server.app.get('/api/messages', async (req, res) =>
+      res.send(await this.server.db.select().from('messages'))
     )
 
     this.server.app.get('/api/users/:id', async ({ params }, res) =>

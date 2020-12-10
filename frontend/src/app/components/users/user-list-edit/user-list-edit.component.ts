@@ -5,6 +5,7 @@ import { UserService } from 'src/app/services/user.service';
   selector: 'app-user-list-edit',
   templateUrl: './user-list-edit.component.html',
   styleUrls: ['./user-list-edit.component.scss'],
+  providers: [UserService],
 })
 export class UserListEditComponent implements OnInit {
   constructor(private userService: UserService) {}

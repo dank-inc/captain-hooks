@@ -6,6 +6,7 @@ import { User } from 'src/app/models/user.model';
   selector: 'app-user-list',
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.scss'],
+  providers: [UserService],
 })
 export class UserListComponent implements OnInit {
   users: User[] = [];

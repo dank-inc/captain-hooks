@@ -1,0 +1,10 @@
+<a
+  href="#users/{{ message.user_id }}"
+  class="list-group-item flex-column list-group-item-action"
+>
+  <div class="d-flex w-100 justify-content-between">
+    <p class="list-group-item-text">
+      {{ message.created_at }}: {{ message.user_id }} - {{ message.body }}
+    </p>
+  </div>
+</a>
