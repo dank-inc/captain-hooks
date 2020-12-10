@@ -4,13 +4,13 @@
 >
   <div class="d-flex w-100 justify-content-between">
     <div>
-      <h4 class="mb-1">ID: {{ user.id }}</h4>
-      <p class="list-group-item-text">{{ user.name }}</p>
+      <h4 class="mb-1">{{ user.name }}</h4>
+      <p class="list-group-item-text">ID: {{ user.id }}</p>
     </div>
     <span>
       <img
         height="100"
-        src="https://source.unsplash.com/random?landscape"
+        src="https://source.unsplash.com/random"
         [alt]="user.name"
         class="img-responsive"
       />

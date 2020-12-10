@@ -1,4 +1,5 @@
-import { ActionParams, Controller } from './controller'
+import { addTimestamps } from '../utils/time'
+import { ActionParams } from './controller'
 import { Server } from './server'
 
 type Props = {
@@ -56,8 +57,10 @@ export class Routes {
     )
 
     this.server.app.post('/api/users', async (req, res) => {
-      console.log('>>> BODY >>>', req.body)
-      const record = await this.server.db('users').insert(req.body)
+      const record = await this.server
+        .db('users')
+        .insert({ ...req.body, ...addTimestamps() })
+      console.log('>>> NEW >>>', record)
       res.send(record)
     })
 
