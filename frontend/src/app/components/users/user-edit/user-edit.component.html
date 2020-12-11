@@ -1,0 +1,26 @@
+<form (ngSubmit)="onSubmit()" #data="ngForm">
+  <div class="form-group">
+    <label for="id">ID: </label>
+    <input type="text" name="id" ngModel class="form-control" disabled />
+  </div>
+  <div class="form-group">
+    <label for="name">Name: </label>
+    <input type="text" name="name" ngModel class="form-control" />
+  </div>
+  <div class="form-group">
+    <label for="email">Email: </label>
+    <input email name="email" ngModel class="form-control" required />
+  </div>
+  <div class="form-group">
+    <label for="twitch_username">Twitch Username:</label>
+    <input type="text" name="twitch_username" ngModel class="form-control" />
+  </div>
+  <div class="form-group">
+    <label for="twitch_username">Discord Username:</label>
+    <input type="text" name="discord_username" ngModel class="form-control" />
+  </div>
+
+  <button [disabled]="data.invalid" class="btn btn-primary" type="submit">
+    Update!
+  </button>
+</form>

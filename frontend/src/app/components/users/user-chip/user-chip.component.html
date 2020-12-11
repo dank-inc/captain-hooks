@@ -6,6 +6,9 @@
     <div>
       <h4 class="mb-1">{{ user.name }}</h4>
       <p class="list-group-item-text">ID: {{ user.id }}</p>
+      <a class="btn btn-secondary" [routerLink]="['/users', user.id, 'edit']"
+        >Edit</a
+      >
     </div>
     <span>
       <img

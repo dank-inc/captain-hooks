@@ -25,5 +25,15 @@ export class UserListComponent implements OnInit {
         console.log('getUsers complete');
       }
     );
+
+    // TODO: unsubscribe to this.Do yuo
+    this.userService.userCreated.subscribe((id) => {
+      console.log('new user created', id);
+      this.userService.getUser(id).subscribe((user) => {
+        this.users.push(user);
+      });
+    });
   }
+
+  getUsers() {}
 }

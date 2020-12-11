@@ -11,8 +11,9 @@ import { HeaderComponent } from './components/header/header.component';
 import { UserListComponent } from './components/users/user-list/user-list.component';
 import { UserChipComponent } from './components/users/user-chip/user-chip.component';
 import { UserDetailsComponent } from './components/users/user-details/user-details.component';
-import { UserListEditComponent } from './components/users/user-list-edit/user-list-edit.component';
+import { UserListEditComponent } from './components/users/user-create/user-create.component';
 import { MessageListComponent } from './components/messages/message-list/message-list.component';
+import { UserEditComponent } from './components/users/user-edit/user-edit.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { MessageListComponent } from './components/messages/message-list/message
     HeaderComponent,
     UserListEditComponent,
     MessageListComponent,
+    UserEditComponent,
   ],
 
   imports: [FormsModule, BrowserModule, AppRoutingModule, HttpClientModule],

@@ -1,0 +1,26 @@
+<div class="row">
+  <div class="w-100">
+    <h3>User List</h3>
+
+    <form>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon1">username</span>
+        </div>
+        <input
+          name="username"
+          type="text"
+          ngModel="username"
+          class="form-control"
+        />
+        <button
+          type="submit"
+          [disabled]="!username.length"
+          class="btn btn-success form-control"
+        >
+          Create
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

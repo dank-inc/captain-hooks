@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
-  selector: 'app-user-list-edit',
-  templateUrl: './user-list-edit.component.html',
-  styleUrls: ['./user-list-edit.component.scss'],
+  selector: 'app-user-create',
+  templateUrl: './user-create.component.html',
+  styleUrls: ['./user-create.component.scss'],
 })
 export class UserListEditComponent implements OnInit {
   constructor(private userService: UserService) {}
@@ -15,12 +15,8 @@ export class UserListEditComponent implements OnInit {
   createUser() {
     if (!this.username.length) return;
 
-    this.userService
-      .create({
-        name: this.username,
-      })
-      .subscribe((id) => {
-        console.log(id);
-      });
+    this.userService.createUser(this.username).subscribe(({ id }) => {
+      this.userService.userCreated.next(id);
+    });
   }
 }

@@ -114,7 +114,7 @@ export class Server {
     // if user does not exist, create user
 
     const message: CaptainMessage = { ...data, user_id: 1 }
-
+    this.db('messages').insert(message)
     // TODO: in admin panel, merge users to their chats
   }
 

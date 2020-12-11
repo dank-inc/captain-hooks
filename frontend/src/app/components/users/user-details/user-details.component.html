@@ -1,10 +1,13 @@
 <div *ngIf="user; else noUser">
   <div class="w-100">
-    <a [routerLink]="['/users', user.id - 1]" class="btn btn-primary"
+    <a [routerLink]="['/users', user.id - 1]" class="btn btn-secondary"
       >Prev User</a
     >
-    <a [routerLink]="['/users', user.id + 1]" class="btn btn-primary"
+    <a [routerLink]="['/users', user.id + 1]" class="btn btn-secondary"
       >Next User</a
+    >
+    <a class="btn btn-primary" [routerLink]="['/users', user.id, 'edit']"
+      >Edit</a
     >
   </div>
   <h3>User Details</h3>

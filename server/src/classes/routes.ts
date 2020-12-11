@@ -65,13 +65,16 @@ export class Routes {
       )
     )
 
-    this.server.app.post('/api/users', async (req, res) => {
-      const record = await this.server
-        .db('users')
-        .insert({ ...req.body, ...addTimestamps() })
-      console.log('>>> NEW >>>', record)
-      res.send(record)
-    })
+    this.server.app.post<{ username: string }, { id: string }>(
+      '/api/users',
+      async (req, res) => {
+        const record = await this.server
+          .db('users')
+          .insert({ ...req.body, ...addTimestamps() })
+        console.log('>>> NEW >>>', record?.[0])
+        res.send({ id: `${record?.[0]}` })
+      }
+    )
 
     // build all the routes and shit
     // handles parsing of http request body and crap
