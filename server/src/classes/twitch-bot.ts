@@ -1,4 +1,5 @@
 import * as tmi from 'tmi.js'
+import { CaptainMessage } from '../types/db'
 import { Server } from './server'
 
 export type TwitchBotCFG = {
@@ -42,13 +43,14 @@ export class TwitchBot {
     console.log('Twitch bot be twitchin')
 
     this.client.on('message', async (channel, tags, message, self) => {
+      const [data, username] = this.mapMessage(tags, message)
+      this.server.persistMsg(data, username, 'twitch')
+
       const content = message.split(' ')
       const keyword = content[0]
 
       if (keyword[0] !== '!') return
 
-      const username = tags['username']
-      const userId = tags['user-id']
       const isSubscriber = tags.badges?.subscriber
 
       console.log(channel, keyword)
@@ -61,6 +63,20 @@ export class TwitchBot {
       )
       this.client.say(channel, response)
     })
+  }
+
+  mapMessage(
+    msg: tmi.ChatUserstate,
+    body: string
+  ): [Pick<CaptainMessage, 'channel_id' | 'chat_user_id' | 'body'>, string] {
+    return [
+      {
+        channel_id: msg['room-id'] as string,
+        chat_user_id: msg['user-id'] as string,
+        body,
+      },
+      msg.username as string,
+    ]
   }
 
   msg(body: string) {

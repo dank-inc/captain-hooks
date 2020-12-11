@@ -26,6 +26,8 @@ export const schema: Schema = [
     fields: [
       { name: 'body', type: 'string' },
       { name: 'user_id', type: IDType },
+      { name: 'channel_user_id', type: 'string' },
+      { name: 'channel_id', type: 'string' },
     ],
   },
 ]

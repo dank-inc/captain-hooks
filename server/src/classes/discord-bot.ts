@@ -1,4 +1,5 @@
-import Discord from 'discord.js'
+import Discord, { Message } from 'discord.js'
+import { CaptainMessage } from '../types/db'
 import { Server } from './server'
 
 export type DiscordBotCFG = {
@@ -10,6 +11,7 @@ type Props = DiscordBotCFG & {
   server: Server
 }
 
+// implements thing to force message mapping
 export class DiscordBot {
   client: Discord.Client
   server: Server
@@ -31,12 +33,8 @@ export class DiscordBot {
     })
 
     this.client.on('message', async (msg) => {
-      console.log(
-        msg.guild?.name,
-        msg.channel?.id,
-        msg.member?.displayName,
-        msg.content
-      )
+      const [data, username] = this.mapMessage(msg)
+      this.server.persistMsg(data, username, 'discord')
 
       const content = msg.content.split(' ')
 
@@ -52,6 +50,19 @@ export class DiscordBot {
 
     // init bot
     this.init(token)
+  }
+
+  mapMessage = (
+    msg: Message
+  ): [Pick<CaptainMessage, 'body' | 'channel_id' | 'chat_user_id'>, string] => {
+    return [
+      {
+        channel_id: msg.channel.id,
+        chat_user_id: msg.author.id,
+        body: msg.content,
+      },
+      msg.author.username,
+    ]
   }
 
   init = async (token: string) => {

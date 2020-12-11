@@ -6,7 +6,7 @@ import { CRUDService } from './crud.service';
 @Injectable({
   providedIn: 'root',
 })
-export class MessageService extends CRUDService<Message> {
+export class MessageService extends CRUDService<Message, 'body' | 'user_id'> {
   // API points to resource
   API = `${environment.api_host}/messages`;
 }

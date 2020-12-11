@@ -1,4 +1,4 @@
-import { Message, TableNames, User } from '../types/db'
+import { CaptainMessage, TableNames, User } from '../types/db'
 
 export const users: User[] = [
   { name: 'elijah' },
@@ -6,6 +6,8 @@ export const users: User[] = [
   { name: 'tanner' },
 ]
 
-export const messages: Message[] = [{ body: 'Hello World', user_id: 1 }]
+export const messages: CaptainMessage[] = [
+  { body: 'Hello World', user_id: 1, channel_id: '', chat_user_id: '' },
+]
 
 export const seeds: Record<TableNames, any> = { users, messages }

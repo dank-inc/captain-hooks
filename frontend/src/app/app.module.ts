@@ -26,6 +26,7 @@ import { MessageListComponent } from './components/messages/message-list/message
     UserListEditComponent,
     MessageListComponent,
   ],
+
   imports: [FormsModule, BrowserModule, AppRoutingModule, HttpClientModule],
   providers: [],
   bootstrap: [AppComponent],

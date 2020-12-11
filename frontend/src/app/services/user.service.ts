@@ -6,7 +6,7 @@ import { CRUDService } from './crud.service';
 @Injectable({
   providedIn: 'root',
 })
-export class UserService extends CRUDService<User> {
+export class UserService extends CRUDService<User, 'name'> {
   API = `${environment.api_host}/users`;
   // emit events,
   //

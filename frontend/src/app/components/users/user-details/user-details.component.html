@@ -1,1 +1,17 @@
-<h3>User Details</h3>
+<div *ngIf="user; else noUser">
+  <div class="w-100">
+    <a [routerLink]="['/users', user.id - 1]" class="btn btn-primary"
+      >Prev User</a
+    >
+    <a [routerLink]="['/users', user.id + 1]" class="btn btn-primary"
+      >Next User</a
+    >
+  </div>
+  <h3>User Details</h3>
+  <p>name: {{ user.name }}</p>
+  <p>id: {{ user.id }}</p>
+</div>
+<ng-template #noUser>
+  <h3>User Not Found!</h3>
+  <a class="btn btn-primary" routerLink="/users">Back to user list</a>
+</ng-template>

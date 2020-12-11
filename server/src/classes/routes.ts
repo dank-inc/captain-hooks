@@ -56,7 +56,12 @@ export class Routes {
 
     this.server.app.get('/api/users/:id', async ({ params }, res) =>
       res.send(
-        await this.server.db.select().from('users').where('id', '=', params.id)
+        (
+          await this.server.db
+            .select()
+            .from('users')
+            .where('id', '=', params.id)
+        )?.[0]
       )
     )
 

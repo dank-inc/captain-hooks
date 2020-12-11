@@ -12,6 +12,7 @@ import { parseChatArgs } from '../utils/chat'
 import { Routes } from './routes'
 import { schema } from '../db'
 import { seeds } from '../db/seeds'
+import { CaptainMessage } from '../types/db'
 
 type Props = {
   twitchBot?: TwitchBotCFG
@@ -100,6 +101,21 @@ export class Server {
   execHTTPAction(action: string, params: ActionParams) {
     // pass in metadata from auth
     return this.controller.exec(action, params)
+  }
+
+  async persistMsg(
+    data: Pick<CaptainMessage, 'channel_id' | 'chat_user_id' | 'body'>,
+    username: string,
+    source: 'discord' | 'twitch' | 'telegram'
+  ) {
+    console.log('>>', source, username, data)
+
+    // lookup user.
+    // if user does not exist, create user
+
+    const message: CaptainMessage = { ...data, user_id: 1 }
+
+    // TODO: in admin panel, merge users to their chats
   }
 
   async execChatAction(keyword: string, params: string[]): Promise<string> {
