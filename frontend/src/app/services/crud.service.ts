@@ -24,7 +24,7 @@ export class CRUDService<T, Fields extends keyof T> {
     return this.http.get<T>(`${this.API}/${id}`);
   }
 
-  update(id: string, body: Pick<T, Fields>): Observable<MutationResponse> {
+  update(id: number, body: Partial<T>): Observable<MutationResponse> {
     return this.http.put<MutationResponse>(`${this.API}/${id}`, {
       ...body,
     });

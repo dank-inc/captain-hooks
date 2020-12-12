@@ -67,6 +67,7 @@ export class Server {
     })
 
     // DB SCHEMA SHIT
+    // TODO: Move to database initializer
     schema.map(async (table) => {
       await this.db.schema.dropTableIfExists(table.name)
       console.log(`${table.name} Table Dropped!`)
@@ -74,9 +75,10 @@ export class Server {
       await this.db.schema
         .createTable(table.name, (newTable) => {
           newTable.increments()
-          newTable.timestamps()
+          newTable.timestamp('created_at').defaultTo(this.db.fn.now())
+          newTable.timestamp('updated_at').defaultTo(this.db.fn.now())
           table.fields.map((field) => {
-            newTable[field.type](field.name)
+            newTable[field.type](field.name).nullable()
           })
         })
         .then(async () => {
@@ -85,8 +87,6 @@ export class Server {
           await this.db(table.name).insert(
             seeds[table.name].map((r: any) => ({
               ...r,
-              created_at: new Date(),
-              updated_at: new Date(),
             }))
           )
         })

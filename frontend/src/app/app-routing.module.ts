@@ -8,6 +8,7 @@ import { UserListComponent } from './components/users/user-list/user-list.compon
 export const routes: Routes = [
   { path: 'users', component: UserListComponent },
   { path: 'users/:id/edit', component: UserEditComponent },
+  { path: 'users/new', component: UserEditComponent },
   { path: 'users/:id', component: UserDetailsComponent },
   { path: 'messages', component: MessageListComponent },
   { path: '**', redirectTo: '/users', pathMatch: 'full' },

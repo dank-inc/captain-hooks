@@ -1,4 +1,4 @@
-import { addTimestamps } from '../utils/time'
+import { addTimestamps, updateUpdatedAt } from '../utils/time'
 import { ActionParams } from './controller'
 import { Server } from './server'
 
@@ -10,6 +10,8 @@ export class Routes {
   server: Server
   constructor({ server }: Props) {
     this.server = server
+
+    // TODO: this could just be a function that takes 'app' and 'controllers' and connects the two.
 
     // ADMIN SHIT
     this.server.app.get('/', (req, res) => res.send('TODO: serve client'))
@@ -65,12 +67,21 @@ export class Routes {
       )
     )
 
+    this.server.app.put('/api/users/:id', async ({ params, body }, res) => {
+      console.log('>>>>>> UPDATING USER', params, body)
+
+      res.send(
+        await this.server
+          .db('users')
+          .where('id', '=', params.id)
+          .update({ ...body, ...updateUpdatedAt() })
+      )
+    })
+
     this.server.app.post<{ username: string }, { id: string }>(
       '/api/users',
-      async (req, res) => {
-        const record = await this.server
-          .db('users')
-          .insert({ ...req.body, ...addTimestamps() })
+      async ({ body }, res) => {
+        const record = await this.server.db('users').insert({ ...body })
         console.log('>>> NEW >>>', record?.[0])
         res.send({ id: `${record?.[0]}` })
       }

@@ -1,15 +1,47 @@
-<form (ngSubmit)="onSubmit()" #data="ngForm">
+<div class="row">
+  <a routerLink="../">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="50"
+      height="50"
+      fill="currentColor"
+      class="bi bi-arrow-return-left"
+      viewBox="0 0 16 16"
+    >
+      <path
+        fill-rule="evenodd"
+        d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"
+      />
+    </svg>
+  </a>
+  <h1>Edit User</h1>
+</div>
+
+<form (ngSubmit)="onSubmit()" #userForm="ngForm">
   <div class="form-group">
     <label for="id">ID: </label>
     <input type="text" name="id" ngModel class="form-control" disabled />
   </div>
-  <div class="form-group">
-    <label for="name">Name: </label>
-    <input type="text" name="name" ngModel class="form-control" />
+  <div class="radio">
+    <label for="admin"
+      >Admin?
+      <input type="checkbox" ngModel name="admin" class="form-control" />
+    </label>
   </div>
   <div class="form-group">
-    <label for="email">Email: </label>
-    <input email name="email" ngModel class="form-control" required />
+    <label for="name">Name:</label>
+    <input
+      minlength="4"
+      required
+      type="text"
+      name="name"
+      ngModel
+      class="form-control"
+      #name="ngModel"
+    />
+    <span *ngIf="name.invalid && name.touched" class="help-block"
+      >Username must be at least 4 characters</span
+    >
   </div>
   <div class="form-group">
     <label for="twitch_username">Twitch Username:</label>
@@ -20,7 +52,22 @@
     <input type="text" name="discord_username" ngModel class="form-control" />
   </div>
 
-  <button [disabled]="data.invalid" class="btn btn-primary" type="submit">
+  <div class="form-group">
+    <label for="notes">User Notes:</label>
+    <textarea
+      name="notes"
+      id="user.notes"
+      cols="30"
+      rows="10"
+      class="form-control"
+    ></textarea>
+  </div>
+
+  <button
+    [disabled]="userForm.invalid && userForm.touched"
+    class="btn btn-primary"
+    type="submit"
+  >
     Update!
   </button>
 </form>

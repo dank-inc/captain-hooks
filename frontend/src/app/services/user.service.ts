@@ -30,4 +30,8 @@ export class UserService extends CRUDService<User, 'name'> {
     });
     return ob;
   }
+
+  updateUser(id: number, body: Partial<User>) {
+    return this.update(id, body);
+  }
 }

@@ -4,6 +4,7 @@ import { TableNames } from '../types/db'
 type Field = {
   name: string
   type: 'string' | 'integer' | 'timestamp'
+  default?: any,
 }
 type Table = {
   name: TableNames
@@ -19,7 +20,12 @@ const IDType = 'integer'
 export const schema: Schema = [
   {
     name: 'users',
-    fields: [{ name: 'name', type: 'string' }],
+    fields: [
+      { name: 'name', type: 'string' },
+      { name: 'admin', type: 'integer', default: false },
+      { name: 'twitch_username', type: 'string' },
+      { name: 'discord_username', type: 'string' },
+    ],
   },
   {
     name: 'messages',
