@@ -1,0 +1,27 @@
+.backdrop {
+  //ya
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #000000e0;
+  z-index: 50;
+  display: flex;
+}
+
+.alert-box {
+  // ya
+  text-align: center;
+  margin: auto;
+  background: white;
+  padding: 1rem 2rem;
+  min-width: 400px;
+  border-radius: 0.5rem;
+  box-shadow: 1px 4px 10px #000000;
+
+  &-actions {
+    // ya
+    margin-right: 0;
+  }
+}

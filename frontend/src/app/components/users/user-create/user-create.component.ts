@@ -9,6 +9,7 @@ import { UserService } from 'src/app/services/user.service';
 export class UserListEditComponent implements OnInit {
   constructor(private userService: UserService) {}
   username = '';
+  error: string | null = null;
 
   ngOnInit(): void {}
 
@@ -17,5 +18,9 @@ export class UserListEditComponent implements OnInit {
     if (!this.username.length) return;
 
     this.userService.createUser(this.username);
+  }
+
+  handleError() {
+    this.error = null;
   }
 }

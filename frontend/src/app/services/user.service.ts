@@ -1,5 +1,4 @@
-import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
+import { ComponentFactoryResolver, Injectable, ViewChild } from '@angular/core';
 import { User } from '../models/user.model';
 import { CRUDService } from './crud.service';
 
@@ -23,19 +22,20 @@ export class UserService extends CRUDService<User, 'name'> {
 
   getUser(id: string) {
     // get user from subject ?
+
     return this.getOne(id);
   }
 
   createUser(username: string) {
-    const ob = this.create({
+    const observer = this.create({
       name: username,
     });
 
-    ob.subscribe(() => {
-      // update datastore
-      // reactive, push user
+    observer.subscribe(() => {
       this.fetchUsers();
     });
+
+    return observer;
   }
 
   updateUser(id: number, body: Partial<User>) {

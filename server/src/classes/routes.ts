@@ -78,12 +78,16 @@ export class Routes {
       res.send({ id })
     })
 
-    this.server.app.post<{ username: string }, { id: string }>(
+    this.server.app.post<{ username: string }>(
       '/api/users',
       async ({ body }, res) => {
-        const record = await this.server.db('users').insert({ ...body })
-        console.log('>>> NEW >>>', record?.[0])
-        res.send({ id: `${record?.[0]}` })
+        try {
+          const record = await this.server.db('users').insert({ ...body })
+          console.log('>>> NEW >>>', record?.[0])
+          res.send({ id: `${record?.[0]}` })
+        } catch (err) {
+          res.status(422).send(err.message)
+        }
       }
     )
 

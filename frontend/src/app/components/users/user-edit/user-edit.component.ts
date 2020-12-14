@@ -11,7 +11,6 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./user-edit.component.scss'],
 })
 export class UserEditComponent implements OnInit {
-  // @ViewChild('userForm') userForm!: NgForm;
   userForm!: FormGroup;
   private id!: number;
   metadataFieldName: string = '';
@@ -31,7 +30,6 @@ export class UserEditComponent implements OnInit {
       twitch_username: new FormControl(''),
       discord_username: new FormControl(''),
       notes: new FormControl(''),
-      // metadata: new FormArray([]),
     });
 
     this.userService.getOne(this.route.snapshot.params.id).subscribe((user) => {
@@ -43,17 +41,6 @@ export class UserEditComponent implements OnInit {
         ...user,
       });
     });
-  }
-
-  addMetadataField() {
-    const formArray = <FormArray>this.userForm.get('metadata');
-    formArray.push(
-      new FormControl(
-        { value: null, name: this.metadataFieldName },
-        Validators.required
-      )
-    );
-    console.log(formArray);
   }
 
   onSubmit() {

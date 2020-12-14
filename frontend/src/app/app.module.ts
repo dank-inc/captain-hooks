@@ -15,6 +15,7 @@ import { UserListEditComponent } from './components/users/user-create/user-creat
 import { MessageListComponent } from './components/messages/message-list/message-list.component';
 import { UserEditComponent } from './components/users/user-edit/user-edit.component';
 import { AuthInterceptorService } from './services/auth-interceptor.service';
+import { AlertComponent } from './components/shared/alert.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { AuthInterceptorService } from './services/auth-interceptor.service';
     UserListEditComponent,
     MessageListComponent,
     UserEditComponent,
+    AlertComponent,
   ],
 
   imports: [
