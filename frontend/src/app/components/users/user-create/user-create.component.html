@@ -2,7 +2,7 @@
   <div class="w-100">
     <h3>User List</h3>
 
-    <form>
+    <form (submit)="createUser()">
       <div class="input-group">
         <div class="input-group-prepend">
           <span class="input-group-text" id="basic-addon1">username</span>
@@ -10,12 +10,13 @@
         <input
           name="username"
           type="text"
-          ngModel="username"
+          [(ngModel)]="username"
+          min="4"
           class="form-control"
         />
         <button
           type="submit"
-          [disabled]="!username.length"
+          [disabled]="username.length < 4"
           class="btn btn-success form-control"
         >
           Create

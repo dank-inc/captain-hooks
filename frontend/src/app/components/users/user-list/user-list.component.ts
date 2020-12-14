@@ -13,27 +13,11 @@ export class UserListComponent implements OnInit {
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {
-    this.userService.getUsers().subscribe(
-      (data) => {
-        const users = data.map((u) => new User(u));
-        this.users = users;
-      },
-      (err) => {
-        console.log(err);
-      },
-      () => {
-        console.log('getUsers complete');
-      }
-    );
-
-    // TODO: unsubscribe to this.Do yuo
-    this.userService.userCreated.subscribe((id) => {
-      console.log('new user created', id);
-      this.userService.getUser(id).subscribe((user) => {
-        this.users.push(user);
-      });
+    this.userService.users.subscribe((users) => {
+      console.log('userservice subject', users);
+      return (this.users = users);
     });
-  }
 
-  getUsers() {}
+    this.userService.fetchUsers();
+  }
 }

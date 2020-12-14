@@ -8,5 +8,5 @@ import { CRUDService } from './crud.service';
 })
 export class MessageService extends CRUDService<Message, 'body' | 'user_id'> {
   // API points to resource
-  API = `${environment.api_host}/messages`;
+  RESOURCE_ENDPOINT = 'messages';
 }

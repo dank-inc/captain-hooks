@@ -9,14 +9,20 @@ import { Subject } from 'rxjs';
   providedIn: 'root',
 })
 export class UserService extends CRUDService<User, 'name'> {
-  API = `${environment.api_host}/users`;
+  RESOURCE_ENDPOINT = 'users';
   userCreated = new Subject<string>();
 
-  getUsers() {
-    return this.get();
+  error = new Subject<string>();
+  users = new Subject<User[]>();
+
+  fetchUsers() {
+    return this.get().subscribe((users) => {
+      this.users.next(users);
+    });
   }
 
   getUser(id: string) {
+    // get user from subject ?
     return this.getOne(id);
   }
 
@@ -24,11 +30,12 @@ export class UserService extends CRUDService<User, 'name'> {
     const ob = this.create({
       name: username,
     });
+
     ob.subscribe(() => {
       // update datastore
-      console.log('updating datastore');
+      // reactive, push user
+      this.fetchUsers();
     });
-    return ob;
   }
 
   updateUser(id: number, body: Partial<User>) {

@@ -7,30 +7,32 @@ import { MutationResponse } from '../types';
   providedIn: 'root',
 })
 export class CRUDService<T, Fields extends keyof T> {
-  public API = '';
+  public RESOURCE_ENDPOINT = '';
   constructor(private http: HttpClient) {}
 
   create(body: Pick<T, Fields>): Observable<MutationResponse> {
-    return this.http.post<MutationResponse>(`${this.API}`, {
+    return this.http.post<MutationResponse>(`${this.RESOURCE_ENDPOINT}`, {
       ...body,
     });
   }
 
   get(): Observable<T[]> {
-    return this.http.get<T[]>(this.API);
+    return this.http.get<T[]>(this.RESOURCE_ENDPOINT);
   }
 
   getOne(id: string): Observable<T> {
-    return this.http.get<T>(`${this.API}/${id}`);
+    return this.http.get<T>(`${this.RESOURCE_ENDPOINT}/${id}`);
   }
 
   update(id: number, body: Partial<T>): Observable<MutationResponse> {
-    return this.http.put<MutationResponse>(`${this.API}/${id}`, {
+    return this.http.put<MutationResponse>(`${this.RESOURCE_ENDPOINT}/${id}`, {
       ...body,
     });
   }
 
   delete(id: string): Observable<MutationResponse> {
-    return this.http.delete<MutationResponse>(`${this.API}/${id}`);
+    return this.http.delete<MutationResponse>(
+      `${this.RESOURCE_ENDPOINT}/${id}`
+    );
   }
 }

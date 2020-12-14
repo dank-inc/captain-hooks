@@ -1,12 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  AbstractControl,
-  FormArray,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { pipe } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -35,7 +31,7 @@ export class UserEditComponent implements OnInit {
       twitch_username: new FormControl(''),
       discord_username: new FormControl(''),
       notes: new FormControl(''),
-      metadata: new FormArray([]),
+      // metadata: new FormArray([]),
     });
 
     this.userService.getOne(this.route.snapshot.params.id).subscribe((user) => {

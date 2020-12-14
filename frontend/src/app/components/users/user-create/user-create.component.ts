@@ -13,10 +13,9 @@ export class UserListEditComponent implements OnInit {
   ngOnInit(): void {}
 
   createUser() {
+    console.log('creating user', this.username);
     if (!this.username.length) return;
 
-    this.userService.createUser(this.username).subscribe(({ id }) => {
-      this.userService.userCreated.next(id);
-    });
+    this.userService.createUser(this.username);
   }
 }
