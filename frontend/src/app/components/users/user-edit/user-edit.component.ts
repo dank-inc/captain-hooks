@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormControl, FormGroup, NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 
@@ -9,8 +9,8 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./user-edit.component.scss'],
 })
 export class UserEditComponent implements OnInit {
-  @ViewChild('userForm') userForm!: NgForm;
-
+  // @ViewChild('userForm') userForm!: NgForm;
+  userForm!: FormGroup;
   private id!: number;
 
   constructor(
@@ -19,14 +19,23 @@ export class UserEditComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.route.snapshot.params.id ? 'editing user' : 'new user');
+    // console.log(this.route.snapshot.params.id ? 'editing user' : 'new user');
+
+    this.userForm = new FormGroup({
+      id: new FormControl('', {}),
+      name: new FormControl('', {}),
+      admin: new FormControl(false, {}),
+      twitch_username: new FormControl('', {}),
+      discord_username: new FormControl('', {}),
+      notes: new FormControl('', {}),
+    });
 
     this.userService.getOne(this.route.snapshot.params.id).subscribe((user) => {
       console.log('editing =>', user);
 
       this.id = user.id;
 
-      this.userForm.form.patchValue({
+      this.userForm.patchValue({
         id: user.id,
         name: user.name,
       });

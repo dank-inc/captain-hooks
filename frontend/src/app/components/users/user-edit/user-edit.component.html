@@ -17,46 +17,47 @@
   <h1>Edit User</h1>
 </div>
 
-<form (ngSubmit)="onSubmit()" #userForm="ngForm">
+<form [formGroup]="userForm" (ngSubmit)="onSubmit()">
   <div class="form-group">
     <label for="id">ID: </label>
-    <input type="text" name="id" ngModel class="form-control" disabled />
+    <input type="text" formControlName="id" class="form-control" />
   </div>
   <div class="radio">
     <label for="admin"
       >Admin?
-      <input type="checkbox" ngModel name="admin" class="form-control" />
+      <input type="checkbox" formControlName="admin" class="form-control" />
     </label>
   </div>
   <div class="form-group">
     <label for="name">Name:</label>
-    <input
-      minlength="4"
-      required
-      type="text"
-      name="name"
-      ngModel
-      class="form-control"
-      #name="ngModel"
-    />
-    <span *ngIf="name.invalid && name.touched" class="help-block"
+    <input type="text" formControlName="name" class="form-control" />
+    <!-- <span *ngIf="name.invalid && name.touched" class="help-block"
       >Username must be at least 4 characters</span
-    >
+    > -->
   </div>
   <div class="form-group">
     <label for="twitch_username">Twitch Username:</label>
-    <input type="text" name="twitch_username" ngModel class="form-control" />
+    <input
+      type="text"
+      formControlName="twitch_username"
+      ngModel
+      class="form-control"
+    />
   </div>
   <div class="form-group">
     <label for="twitch_username">Discord Username:</label>
-    <input type="text" name="discord_username" ngModel class="form-control" />
+    <input
+      type="text"
+      formControlName="discord_username"
+      ngModel
+      class="form-control"
+    />
   </div>
 
   <div class="form-group">
     <label for="notes">User Notes:</label>
     <textarea
-      name="notes"
-      id="user.notes"
+      formControlName="notes"
       cols="30"
       rows="10"
       class="form-control"
