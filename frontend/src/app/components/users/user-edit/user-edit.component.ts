@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, NgForm } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 
@@ -36,8 +36,7 @@ export class UserEditComponent implements OnInit {
       this.id = user.id;
 
       this.userForm.patchValue({
-        id: user.id,
-        name: user.name,
+        ...user,
       });
     });
   }
@@ -54,7 +53,10 @@ export class UserEditComponent implements OnInit {
 
     // disable submit button
     this.userService
-      .updateUser(this.id, this.userForm.value)
+      .updateUser(this.id, {
+        ...this.userForm.value,
+        admin: this.userForm.value.admin ? 1 : 0,
+      })
       .subscribe((id) => {
         // form resets from internal datastore
       });

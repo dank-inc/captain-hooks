@@ -54,11 +54,14 @@ export class DiscordBot {
 
   mapMessage = (
     msg: Message
-  ): [Pick<CaptainMessage, 'body' | 'channel_id' | 'chat_user_id'>, string] => {
+  ): [
+    Pick<CaptainMessage, 'body' | 'channel_id' | 'channel_user_id'>,
+    string
+  ] => {
     return [
       {
         channel_id: msg.channel.id,
-        chat_user_id: msg.author.id,
+        channel_user_id: msg.author.id,
         body: msg.content,
       },
       msg.author.username,

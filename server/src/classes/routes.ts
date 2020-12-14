@@ -68,14 +68,14 @@ export class Routes {
     )
 
     this.server.app.put('/api/users/:id', async ({ params, body }, res) => {
-      console.log('>>>>>> UPDATING USER', params, body)
+      const id = await this.server
+        .db('users')
+        .where('id', '=', params.id)
+        .update({ ...body, ...updateUpdatedAt() })
 
-      res.send(
-        await this.server
-          .db('users')
-          .where('id', '=', params.id)
-          .update({ ...body, ...updateUpdatedAt() })
-      )
+      console.log('>>>>>> UPDATED USER', id)
+
+      res.send({ id })
     })
 
     this.server.app.post<{ username: string }, { id: string }>(

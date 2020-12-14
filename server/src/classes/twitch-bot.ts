@@ -68,11 +68,11 @@ export class TwitchBot {
   mapMessage(
     msg: tmi.ChatUserstate,
     body: string
-  ): [Pick<CaptainMessage, 'channel_id' | 'chat_user_id' | 'body'>, string] {
+  ): [Pick<CaptainMessage, 'channel_id' | 'channel_user_id' | 'body'>, string] {
     return [
       {
         channel_id: msg['room-id'] as string,
-        chat_user_id: msg['user-id'] as string,
+        channel_user_id: msg['user-id'] as string,
         body,
       },
       msg.username as string,

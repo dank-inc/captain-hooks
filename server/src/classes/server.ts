@@ -1,5 +1,6 @@
 import express from 'express'
 import bodyParser from 'body-parser'
+import cors from 'cors'
 // moved all this in here so we get autocomplete
 import Knex from 'knex'
 
@@ -36,14 +37,7 @@ export class Server {
     this.port = port
     this.app = express()
 
-    this.app.use((req, res, next) => {
-      res.header('Access-Control-Allow-Origin', '*')
-      res.header(
-        'Access-Control-Allow-Headers',
-        'Origin, X-Requested-With, Content-Type, Accept'
-      )
-      next()
-    })
+    this.app.use(cors())
 
     this.app.use(bodyParser.json())
 
@@ -104,7 +98,7 @@ export class Server {
   }
 
   async persistMsg(
-    data: Pick<CaptainMessage, 'channel_id' | 'chat_user_id' | 'body'>,
+    data: Pick<CaptainMessage, 'channel_id' | 'channel_user_id' | 'body'>,
     username: string,
     source: 'discord' | 'twitch' | 'telegram'
   ) {

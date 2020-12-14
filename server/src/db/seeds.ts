@@ -7,7 +7,7 @@ export const users: User[] = [
 ]
 
 export const messages: CaptainMessage[] = [
-  { body: 'Hello World', user_id: 1, channel_id: '', chat_user_id: '' },
+  { body: 'Hello World', user_id: 1, channel_id: '', channel_user_id: '' },
 ]
 
 export const seeds: Record<TableNames, any> = { users, messages }

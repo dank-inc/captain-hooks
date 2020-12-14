@@ -7,6 +7,6 @@ export type User = {
 export type CaptainMessage = {
   body: string
   user_id: number
-  chat_user_id: string
+  channel_user_id: string
   channel_id: string
 }
