@@ -7,6 +7,7 @@ import { environment } from 'src/environments/environment';
 
 export class AuthInterceptorService implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler) {
+    // TODO add JWT
     const newReq = req.clone({
       url: `${environment.api_host}/${req.url}`,
     });

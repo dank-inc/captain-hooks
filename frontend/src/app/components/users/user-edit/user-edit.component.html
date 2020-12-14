@@ -62,11 +62,11 @@
 
   <div class="form-group">
     <h3>Metadata</h3>
-    <p *ngIf="!userForm.get('metadata')?.controls?.length">No Fields</p>
+    <p *ngIf="!userForm.get('metadata')['controls']?.length">No Fields</p>
     <div
       class="form-group"
       *ngFor="
-        let field of userForm.get('metadata')?.controls || [];
+        let field of userForm.get('metadata')['controls'] || [];
         let i = index
       "
     >
