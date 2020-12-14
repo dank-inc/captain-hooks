@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 
@@ -22,12 +22,12 @@ export class UserEditComponent implements OnInit {
     // console.log(this.route.snapshot.params.id ? 'editing user' : 'new user');
 
     this.userForm = new FormGroup({
-      id: new FormControl('', {}),
-      name: new FormControl('', {}),
-      admin: new FormControl(false, {}),
-      twitch_username: new FormControl('', {}),
-      discord_username: new FormControl('', {}),
-      notes: new FormControl('', {}),
+      id: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      name: new FormControl('', [Validators.required]),
+      admin: new FormControl({ value: false }),
+      twitch_username: new FormControl(''),
+      discord_username: new FormControl(''),
+      notes: new FormControl(''),
     });
 
     this.userService.getOne(this.route.snapshot.params.id).subscribe((user) => {

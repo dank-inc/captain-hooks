@@ -31,25 +31,21 @@
   <div class="form-group">
     <label for="name">Name:</label>
     <input type="text" formControlName="name" class="form-control" />
-    <!-- <span *ngIf="name.invalid && name.touched" class="help-block"
+    <span
+      *ngIf="userForm.get('name')?.invalid && userForm.get('name')?.touched"
+      class="help-block"
       >Username must be at least 4 characters</span
-    > -->
+    >
   </div>
   <div class="form-group">
     <label for="twitch_username">Twitch Username:</label>
-    <input
-      type="text"
-      formControlName="twitch_username"
-      ngModel
-      class="form-control"
-    />
+    <input type="text" formControlName="twitch_username" class="form-control" />
   </div>
   <div class="form-group">
     <label for="twitch_username">Discord Username:</label>
     <input
       type="text"
       formControlName="discord_username"
-      ngModel
       class="form-control"
     />
   </div>
