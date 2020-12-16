@@ -1,5 +1,6 @@
 import * as tmi from 'tmi.js'
 import { CaptainMessage } from '../types/db'
+import { IBot } from './interfaces/bot'
 import { Server } from './server'
 
 export type TwitchBotCFG = {
@@ -17,7 +18,7 @@ type Props = {
   server: Server
 }
 
-export class TwitchBot {
+export class TwitchBot implements IBot {
   server: Server
   client: tmi.Client
   noticeChannel: string
@@ -43,7 +44,10 @@ export class TwitchBot {
     console.log('Twitch bot be twitchin')
 
     this.client.on('message', async (channel, tags, message, self) => {
-      const [data, username] = this.mapMessage(tags, message)
+      const [data, username] = this.mapMessage({
+        metadata: tags,
+        body: message,
+      })
       this.server.persistMsg(data, username, 'twitch')
 
       const content = message.split(' ')
@@ -65,17 +69,23 @@ export class TwitchBot {
     })
   }
 
-  mapMessage(
-    msg: tmi.ChatUserstate,
+  mapMessage({
+    metadata,
+    body,
+  }: {
+    metadata: tmi.ChatUserstate
     body: string
-  ): [Pick<CaptainMessage, 'channel_id' | 'channel_user_id' | 'body'>, string] {
+  }): [
+    Pick<CaptainMessage, 'channel_id' | 'channel_user_id' | 'body'>,
+    string
+  ] {
     return [
       {
-        channel_id: msg['room-id'] as string,
-        channel_user_id: msg['user-id'] as string,
+        channel_id: metadata['room-id'] as string,
+        channel_user_id: metadata['user-id'] as string,
         body,
       },
-      msg.username as string,
+      metadata.username as string,
     ]
   }
 

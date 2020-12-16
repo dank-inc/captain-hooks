@@ -1,6 +1,7 @@
 import Discord, { Message } from 'discord.js'
 import { CaptainMessage } from '../types/db'
 import { Server } from './server'
+import { IBot } from './interfaces/bot'
 
 export type DiscordBotCFG = {
   testChannelId: string
@@ -12,7 +13,7 @@ type Props = DiscordBotCFG & {
 }
 
 // implements thing to force message mapping
-export class DiscordBot {
+export class DiscordBot implements IBot {
   client: Discord.Client
   server: Server
   helpers: any // TODO: not this
