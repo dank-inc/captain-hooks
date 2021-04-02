@@ -1,5 +1,4 @@
 import { Component, ComponentFactoryResolver } from '@angular/core';
-import { AlertComponent } from './components/shared/alert.component';
 
 @Component({
   selector: 'app-root',
@@ -12,9 +11,5 @@ export class AppComponent {
   // subject
   // subject on message => showError(message)
 
-  showError(message: string) {
-    const factory = this.componentResolver.resolveComponentFactory(
-      AlertComponent
-    );
-  }
+  showError(message: string) {}
 }
